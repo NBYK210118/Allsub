@@ -1,0 +1,40 @@
+{
+  "name": "allsub-mobile",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@react-native-voice/voice": "^3.2.4",
+    "@react-navigation/native": "^7.1.18",
+    "@react-navigation/stack": "^7.4.10",
+    "babel-preset-expo": "^54.0.4",
+    "expo": "~54.0.13",
+    "expo-av": "~16.0.7",
+    "expo-blur": "~15.0.7",
+    "expo-constants": "~18.0.9",
+    "expo-linear-gradient": "^15.0.7",
+    "expo-permissions": "^14.4.0",
+    "expo-speech": "~14.0.7",
+    "expo-splash-screen": "~31.0.10",
+    "expo-status-bar": "~3.0.8",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-native": "0.81.4",
+    "react-native-fs": "^2.20.0",
+    "react-native-gesture-handler": "^2.28.0",
+    "react-native-permissions": "^5.4.2",
+    "react-native-reanimated": "~4.1.1",
+    "socket.io-client": "^4.8.1",
+    "zustand": "^5.0.8"
+  },
+  "devDependencies": {
+    "@types/react": "~19.1.0",
+    "typescript": "~5.9.2"
+  },
+  "private": true
+}

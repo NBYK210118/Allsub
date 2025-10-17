@@ -1,0 +1,22 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model UserSettings {
+  id              String  @id @default(cuid())
+  userId          String  @unique
+  isCaptionEnabled Boolean @default(false)
+  captionText     String  @default("가나다라마바사아자카타파하")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@map("user_settings")
+}
