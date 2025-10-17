@@ -52,15 +52,16 @@ export const useAppStore = create<AppState>((set, get) => ({
       const { userId } = get();
       const settings = await ApiService.getUserSettings(userId);
       if (settings) {
+        // 항상 OFF로 시작하도록 강제
         set({ 
-          isCaptionEnabled: settings.isCaptionEnabled,
+          isCaptionEnabled: false, // 항상 OFF로 시작
           captionText: settings.captionText 
         });
       }
       // settings가 null이면 기본값 사용
     } catch (error) {
       console.error('Failed to load user settings:', error);
-      // 기본값 사용
+      // 기본값 사용 (이미 false로 설정됨)
     }
   },
 }));

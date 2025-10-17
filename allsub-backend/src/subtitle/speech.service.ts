@@ -97,7 +97,7 @@ export class SpeechService {
             }
           }
         })
-        .on('error', (error: Error) => {
+        .on('error', (error: Error) => { 
           this.logger.error('Streaming recognition error:', error);
           onError(error);
         });
