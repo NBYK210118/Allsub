@@ -1,5 +1,6 @@
-import { AppState } from 'react-native';
+import { AppState, Platform } from 'react-native';
 import AudioService from './audioService';
+import SystemAudioService from './systemAudioService';
 import WebSocketService, { SubtitleData } from './websocketService';
 
 const SERVER_URL = 'http://210.115.229.181:3000'; // 백엔드 서버 주소
@@ -103,29 +104,54 @@ class SubtitleService {
       // 2. 자막 서비스 시작 요청
       WebSocketService.startSubtitle(userId, sourceLanguage, targetLanguage);
 
-      // 3. 오디오 권한 요청
-      const hasAudioPermission = await AudioService.requestPermissions();
-      if (!hasAudioPermission) {
-        console.error('Audio permission denied');
-        WebSocketService.stopSubtitle();
-        WebSocketService.disconnect();
-        return false;
+      // 3. 오디오 캡처 시작
+      let audioStarted = false;
+
+      if (Platform.OS === 'android') {
+        // Android: 시스템 오디오 캡처 시도
+        const isSystemAudioSupported = await SystemAudioService.isSupported();
+        
+        if (isSystemAudioSupported) {
+          console.log('Using system audio capture (Android 10+)');
+          // 시스템 오디오 직접 캡처 (백엔드로 직접 전송)
+          audioStarted = await SystemAudioService.start(
+            SERVER_URL.replace('http://', '').replace('https://', ''),
+            3000 // 별도 포트 사용 (WebSocket과 분리)
+          );
+          
+          if (audioStarted) {
+            console.log('System audio capture started');
+          } else {
+            console.log('System audio capture failed, falling back to microphone');
+          }
+        }
       }
 
-      // 4. 오디오 스트리밍 시작 (2초마다 청크 전송)
-      const audioStarted = await AudioService.startStreamingRecording(
-        (audioData: string) => {
-          // 오디오 청크를 WebSocket으로 전송
-          WebSocketService.sendAudioChunk(audioData, 'base64');
-        },
-        2000 // 2초 간격
-      );
-
+      // 시스템 오디오 실패 또는 iOS의 경우 마이크 사용
       if (!audioStarted) {
-        console.error('Failed to start audio recording');
-        WebSocketService.stopSubtitle();
-        WebSocketService.disconnect();
-        return false;
+        console.log('Using microphone audio capture');
+        const hasAudioPermission = await AudioService.requestPermissions();
+        if (!hasAudioPermission) {
+          console.error('Audio permission denied');
+          WebSocketService.stopSubtitle();
+          WebSocketService.disconnect();
+          return false;
+        }
+
+        audioStarted = await AudioService.startStreamingRecording(
+          (audioData: string) => {
+            // 오디오 청크를 WebSocket으로 전송
+            WebSocketService.sendAudioChunk(audioData, 'base64');
+          },
+          2000 // 2초 간격
+        );
+
+        if (!audioStarted) {
+          console.error('Failed to start audio recording');
+          WebSocketService.stopSubtitle();
+          WebSocketService.disconnect();
+          return false;
+        }
       }
 
       this.isRecording = true;
@@ -150,7 +176,11 @@ class SubtitleService {
       this.isProcessing = false;
 
       // 오디오 녹음 중지
-      await AudioService.stopRecording();
+      if (Platform.OS === 'android' && SystemAudioService.getIsCapturing()) {
+        await SystemAudioService.stop();
+      } else {
+        await AudioService.stopRecording();
+      }
 
       // WebSocket 자막 서비스 중지
       WebSocketService.stopSubtitle();
