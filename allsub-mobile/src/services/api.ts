@@ -1,8 +1,8 @@
-// 개발 환경에서는 컴퓨터의 IP 주소를 사용
-// Expo Go에서 테스트할 때는 localhost 대신 실제 IP 주소 사용
+// Android 에뮬레이터: 10.0.2.2 = 호스트 PC의 localhost
+// 실제 디바이스: PC의 실제 IP 주소 사용
 const API_BASE_URL = __DEV__ 
-  ? 'http://210.115.229.181:3000' 
-  : 'http://localhost:3000';
+  ? 'http://10.0.2.2:3000'  // 에뮬레이터용
+  : 'http://210.115.229.181:3000'; // 실제 디바이스용
 
 export interface UserSettings {
   id: string;

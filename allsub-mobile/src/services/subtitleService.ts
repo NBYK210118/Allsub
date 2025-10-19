@@ -3,7 +3,11 @@ import AudioService from './audioService';
 import SystemAudioService from './systemAudioService';
 import WebSocketService, { SubtitleData } from './websocketService';
 
-const SERVER_URL = 'http://210.115.229.181:3000'; // 백엔드 서버 주소
+// Android 에뮬레이터에서는 10.0.2.2가 호스트 PC의 localhost
+// 실제 디바이스에서는 PC의 IP 주소 사용
+const SERVER_URL = __DEV__ 
+  ? 'http://10.0.2.2:3000'  // 에뮬레이터용
+  : 'http://210.115.229.181:3000'; // 실제 디바이스용
 
 export interface SubtitleServiceState {
   isActive: boolean;
