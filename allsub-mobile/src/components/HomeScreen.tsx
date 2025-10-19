@@ -7,6 +7,8 @@ import { useAppStore } from '../store/useAppStore';
 import SubtitleService, { SubtitleServiceState } from '../services/subtitleService';
 
 const HomeScreen: React.FC = () => {
+  console.log('HomeScreen: Component rendering');
+  
   const { isCaptionEnabled, toggleCaption } = useAppStore();
   const [showStatusText, setShowStatusText] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
