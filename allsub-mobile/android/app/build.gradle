@@ -128,8 +128,7 @@ android {
         }
         resources {
             excludes += [
-                'META-INF/androidx.appcompat_appcompat.version',
-                'META-INF/androidx.core_core.version',
+                'META-INF/*.version',
                 'META-INF/DEPENDENCIES',
                 'META-INF/LICENSE',
                 'META-INF/LICENSE.txt',

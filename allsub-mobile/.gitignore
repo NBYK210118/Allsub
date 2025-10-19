@@ -44,3 +44,6 @@ yarn-error.*
 /android/app/build
 /android/app/.cxx
 /android/local.properties
+/android/**/*.lock
+/android/**/*.bin
+/android/**/*.jar
