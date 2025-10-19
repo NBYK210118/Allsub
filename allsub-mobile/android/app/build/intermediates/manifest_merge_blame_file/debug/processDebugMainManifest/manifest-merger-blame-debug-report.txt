@@ -91,7 +91,7 @@
 48-->[androidx.core:core:1.16.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\9fe7761d13696f8e43555dc66e53931d\transformed\core-1.16.0\AndroidManifest.xml:26:22-94
 49
 50    <application
-50-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:20:3-35:17
+50-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:20:3-39:17
 51        android:name="com.anonymous.allsubmobile.MainApplication"
 51-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:20:16-47
 52        android:allowBackup="true"
@@ -171,109 +171,117 @@
 91-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:33:7-31
 92            android:foregroundServiceType="mediaProjection" />
 92-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:34:7-54
-93
-94        <meta-data
-94-->[:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:9:9-11:89
-95            android:name="org.unimodules.core.AppLoader#react-native-headless"
-95-->[:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:10:13-79
-96            android:value="expo.modules.adapters.react.apploader.RNHeadlessAppLoader" />
-96-->[:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:13-86
-97        <meta-data
-97-->[:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:12:9-15:45
-98            android:name="com.facebook.soloader.enabled"
-98-->[:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:13:13-57
-99            android:value="true" />
-99-->[:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:14:13-33
-100
-101        <activity
-101-->[com.facebook.react:react-android:0.81.4] C:\Users\MMC\.gradle\caches\8.14.3\transforms\80104bb6e704adcf5f2e0c7d97f0d5f7\transformed\react-android-0.81.4-debug\AndroidManifest.xml:19:9-21:40
-102            android:name="com.facebook.react.devsupport.DevSettingsActivity"
-102-->[com.facebook.react:react-android:0.81.4] C:\Users\MMC\.gradle\caches\8.14.3\transforms\80104bb6e704adcf5f2e0c7d97f0d5f7\transformed\react-android-0.81.4-debug\AndroidManifest.xml:20:13-77
-103            android:exported="false" />
-103-->[com.facebook.react:react-android:0.81.4] C:\Users\MMC\.gradle\caches\8.14.3\transforms\80104bb6e704adcf5f2e0c7d97f0d5f7\transformed\react-android-0.81.4-debug\AndroidManifest.xml:21:13-37
+93        <service
+93-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:35:5-38:33
+94            android:name="com.anonymous.allsubmobile.FloatingButtonService"
+94-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:36:7-44
+95            android:enabled="true"
+95-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:37:7-29
+96            android:exported="false" />
+96-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:38:7-31
+97
+98        <meta-data
+98-->[:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:9:9-11:89
+99            android:name="org.unimodules.core.AppLoader#react-native-headless"
+99-->[:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:10:13-79
+100            android:value="expo.modules.adapters.react.apploader.RNHeadlessAppLoader" />
+100-->[:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:13-86
+101        <meta-data
+101-->[:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:12:9-15:45
+102            android:name="com.facebook.soloader.enabled"
+102-->[:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:13:13-57
+103            android:value="true" />
+103-->[:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:14:13-33
 104
-105        <provider
-105-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:21:9-30:20
-106            android:name="expo.modules.filesystem.FileSystemFileProvider"
-106-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:22:13-74
-107            android:authorities="com.anonymous.allsubmobile.FileSystemFileProvider"
-107-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:23:13-74
-108            android:exported="false"
-108-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:24:13-37
-109            android:grantUriPermissions="true" >
-109-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:25:13-47
-110            <meta-data
-110-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:27:13-29:70
-111                android:name="android.support.FILE_PROVIDER_PATHS"
-111-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:28:17-67
-112                android:resource="@xml/file_system_provider_paths" />
-112-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:29:17-67
-113        </provider>
-114        <provider
-114-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
-115            android:name="androidx.startup.InitializationProvider"
-115-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
-116            android:authorities="com.anonymous.allsubmobile.androidx-startup"
-116-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
-117            android:exported="false" >
-117-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
-118            <meta-data
-118-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
-119                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-119-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
-120                android:value="androidx.startup" />
-120-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
-121            <meta-data
-121-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\MMC\.gradle\caches\8.14.3\transforms\5e655a89e24fc65d46ad1ba49f72d6c3\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
-122                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-122-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\MMC\.gradle\caches\8.14.3\transforms\5e655a89e24fc65d46ad1ba49f72d6c3\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
-123                android:value="androidx.startup" />
-123-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\MMC\.gradle\caches\8.14.3\transforms\5e655a89e24fc65d46ad1ba49f72d6c3\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
-124            <meta-data
-124-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
-125                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-125-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
-126                android:value="androidx.startup" />
-126-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
-127        </provider>
-128
-129        <receiver
-129-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
-130            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-130-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
-131            android:directBootAware="false"
-131-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
-132            android:enabled="true"
-132-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
-133            android:exported="true"
-133-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
-134            android:permission="android.permission.DUMP" >
-134-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
-135            <intent-filter>
-135-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
-136                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-136-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
-136-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
-137            </intent-filter>
-138            <intent-filter>
-138-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
-139                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-139-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
-139-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
-140            </intent-filter>
-141            <intent-filter>
-141-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
-142                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-142-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
-142-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
-143            </intent-filter>
-144            <intent-filter>
-144-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
-145                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-145-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
-145-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
-146            </intent-filter>
-147        </receiver>
-148    </application>
-149
-150</manifest>
+105        <activity
+105-->[com.facebook.react:react-android:0.81.4] C:\Users\MMC\.gradle\caches\8.14.3\transforms\80104bb6e704adcf5f2e0c7d97f0d5f7\transformed\react-android-0.81.4-debug\AndroidManifest.xml:19:9-21:40
+106            android:name="com.facebook.react.devsupport.DevSettingsActivity"
+106-->[com.facebook.react:react-android:0.81.4] C:\Users\MMC\.gradle\caches\8.14.3\transforms\80104bb6e704adcf5f2e0c7d97f0d5f7\transformed\react-android-0.81.4-debug\AndroidManifest.xml:20:13-77
+107            android:exported="false" />
+107-->[com.facebook.react:react-android:0.81.4] C:\Users\MMC\.gradle\caches\8.14.3\transforms\80104bb6e704adcf5f2e0c7d97f0d5f7\transformed\react-android-0.81.4-debug\AndroidManifest.xml:21:13-37
+108
+109        <provider
+109-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:21:9-30:20
+110            android:name="expo.modules.filesystem.FileSystemFileProvider"
+110-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:22:13-74
+111            android:authorities="com.anonymous.allsubmobile.FileSystemFileProvider"
+111-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:23:13-74
+112            android:exported="false"
+112-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:24:13-37
+113            android:grantUriPermissions="true" >
+113-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:25:13-47
+114            <meta-data
+114-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:27:13-29:70
+115                android:name="android.support.FILE_PROVIDER_PATHS"
+115-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:28:17-67
+116                android:resource="@xml/file_system_provider_paths" />
+116-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:29:17-67
+117        </provider>
+118        <provider
+118-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+119            android:name="androidx.startup.InitializationProvider"
+119-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+120            android:authorities="com.anonymous.allsubmobile.androidx-startup"
+120-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+121            android:exported="false" >
+121-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+122            <meta-data
+122-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+123                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+123-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+124                android:value="androidx.startup" />
+124-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+125            <meta-data
+125-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\MMC\.gradle\caches\8.14.3\transforms\5e655a89e24fc65d46ad1ba49f72d6c3\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
+126                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+126-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\MMC\.gradle\caches\8.14.3\transforms\5e655a89e24fc65d46ad1ba49f72d6c3\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
+127                android:value="androidx.startup" />
+127-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\MMC\.gradle\caches\8.14.3\transforms\5e655a89e24fc65d46ad1ba49f72d6c3\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
+128            <meta-data
+128-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+129                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+129-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+130                android:value="androidx.startup" />
+130-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+131        </provider>
+132
+133        <receiver
+133-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+134            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+134-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+135            android:directBootAware="false"
+135-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+136            android:enabled="true"
+136-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+137            android:exported="true"
+137-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+138            android:permission="android.permission.DUMP" >
+138-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+139            <intent-filter>
+139-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+140                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+140-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+140-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+141            </intent-filter>
+142            <intent-filter>
+142-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+143                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+143-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+143-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+144            </intent-filter>
+145            <intent-filter>
+145-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+146                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+146-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+146-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+147            </intent-filter>
+148            <intent-filter>
+148-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+149                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+149-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+149-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+150            </intent-filter>
+151        </receiver>
+152    </application>
+153
+154</manifest>

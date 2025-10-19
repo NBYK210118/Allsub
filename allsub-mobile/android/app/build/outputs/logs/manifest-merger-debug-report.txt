@@ -1,7 +1,7 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:1:1-36:12
-MERGED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:1:1-36:12
+ADDED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:1:1-40:12
+MERGED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:1:1-40:12
 INJECTED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\debug\AndroidManifest.xml:1:1-7:12
 INJECTED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\debug\AndroidManifest.xml:1:1-7:12
 INJECTED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\debug\AndroidManifest.xml:1:1-7:12
@@ -224,9 +224,9 @@ ADDED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\Andr
 	android:scheme
 		ADDED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:17:13-35
 application
-ADDED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:20:3-35:17
-MERGED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:20:3-35:17
-MERGED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:20:3-35:17
+ADDED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:20:3-39:17
+MERGED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:20:3-39:17
+MERGED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:20:3-39:17
 INJECTED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\debug\AndroidManifest.xml:6:5-162
 MERGED from [:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:8:5-16:19
 MERGED from [:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:8:5-16:19
@@ -344,6 +344,14 @@ ADDED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\Andr
 		ADDED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:34:7-54
 	android:name
 		ADDED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:31:7-42
+service#com.anonymous.allsubmobile.FloatingButtonService
+ADDED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:35:5-38:33
+	android:enabled
+		ADDED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:37:7-29
+	android:exported
+		ADDED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:38:7-31
+	android:name
+		ADDED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:36:7-44
 uses-sdk
 INJECTED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\debug\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\debug\AndroidManifest.xml

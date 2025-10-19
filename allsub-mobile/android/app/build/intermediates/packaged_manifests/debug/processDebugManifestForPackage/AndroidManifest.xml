@@ -90,6 +90,10 @@
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="mediaProjection" />
+        <service
+            android:name="com.anonymous.allsubmobile.FloatingButtonService"
+            android:enabled="true"
+            android:exported="false" />
 
         <meta-data
             android:name="org.unimodules.core.AppLoader#react-native-headless"
