@@ -32,5 +32,9 @@
       android:enabled="true"
       android:exported="false"
       android:foregroundServiceType="mediaProjection"/>
+    <service
+      android:name=".FloatingButtonService"
+      android:enabled="true"
+      android:exported="false"/>
   </application>
 </manifest>

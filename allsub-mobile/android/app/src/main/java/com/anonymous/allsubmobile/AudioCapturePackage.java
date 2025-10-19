@@ -14,6 +14,7 @@ public class AudioCapturePackage implements ReactPackage {
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
         modules.add(new AudioCaptureModule(reactContext));
+        modules.add(new FloatingButtonModule(reactContext));
         return modules;
     }
 

@@ -1,6 +1,7 @@
 import { AppState, Platform } from 'react-native';
 import AudioService from './audioService';
 import SystemAudioService from './systemAudioService';
+import FloatingButtonService from './floatingButtonService';
 import WebSocketService, { SubtitleData } from './websocketService';
 
 // Android 에뮬레이터에서는 10.0.2.2가 호스트 PC의 localhost
@@ -162,6 +163,16 @@ class SubtitleService {
       this.isProcessing = true;
       this.updateState();
 
+      // Android: 플로팅 버튼 시작 (다른 앱 위에 표시)
+      if (Platform.OS === 'android') {
+        const floatingStarted = await FloatingButtonService.start();
+        if (floatingStarted) {
+          console.log('Floating button started');
+        } else {
+          console.log('Floating button failed (권한 필요 또는 에러)');
+        }
+      }
+
       console.log('Subtitle service started successfully');
       return true;
     } catch (error) {
@@ -184,6 +195,11 @@ class SubtitleService {
         await SystemAudioService.stop();
       } else {
         await AudioService.stopRecording();
+      }
+
+      // Android: 플로팅 버튼 중지
+      if (Platform.OS === 'android' && FloatingButtonService.getIsActive()) {
+        await FloatingButtonService.stop();
       }
 
       // WebSocket 자막 서비스 중지
