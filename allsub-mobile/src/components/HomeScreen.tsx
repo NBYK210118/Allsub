@@ -37,6 +37,8 @@ const HomeScreen: React.FC = () => {
 
   // 자막 서비스 상태 관리
   useEffect(() => {
+    console.log('HomeScreen: isCaptionEnabled changed to', isCaptionEnabled);
+    
     const handleSubtitleUpdate = (subtitle: string, translation: string) => {
       setSubtitleServiceState(prev => ({ 
         ...prev, 
@@ -50,6 +52,7 @@ const HomeScreen: React.FC = () => {
     };
 
     if (isCaptionEnabled) {
+      console.log('HomeScreen: Starting subtitle service');
       // 자막 서비스 시작 (한국어 음성 인식 -> 영어 번역)
       SubtitleService.start(
         handleSubtitleUpdate, 
@@ -58,13 +61,17 @@ const HomeScreen: React.FC = () => {
         'ko-KR', // 소스 언어
         'en' // 타겟 언어 (영어)
       ).then(success => {
+        console.log('HomeScreen: Subtitle service start result:', success);
         if (success) {
           setShowSubtitleOverlay(true);
         } else {
-          console.error('Failed to start subtitle service');
+          console.error('HomeScreen: Failed to start subtitle service');
         }
+      }).catch(error => {
+        console.error('HomeScreen: Error starting subtitle service:', error);
       });
     } else {
+      console.log('HomeScreen: Stopping subtitle service');
       // 자막 서비스 중지
       SubtitleService.stop();
       setShowSubtitleOverlay(false);
@@ -72,6 +79,7 @@ const HomeScreen: React.FC = () => {
 
     return () => {
       // 컴포넌트 언마운트 시 정리
+      console.log('HomeScreen: Cleanup');
       SubtitleService.stop();
     };
   }, [isCaptionEnabled]);

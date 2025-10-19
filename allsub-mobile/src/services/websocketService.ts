@@ -129,7 +129,7 @@ class WebSocketService {
    */
   stopSubtitle() {
     if (!this.socket || !this.isConnected) {
-      console.error('Socket not connected');
+      // 연결되지 않은 상태에서 stop은 정상 (무시)
       return;
     }
 
