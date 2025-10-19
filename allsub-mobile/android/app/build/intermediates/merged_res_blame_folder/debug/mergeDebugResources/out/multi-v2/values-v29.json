@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.anonymous.allsubmobile.app-mergeDebugResources-52:/values-v29/values-v29.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\MMC\\.gradle\\caches\\8.14.3\\transforms\\8272852a94efc1b3546f982a231056ab\\transformed\\core-splashscreen-1.2.0-alpha02\\res\\values-v29\\values-v29.xml",
+                    "from": {
+                        "startLines": "2,8",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,442",
+                        "endLines": "7,8",
+                        "endColumns": "12,82",
+                        "endOffsets": "437,520"
+                    }
+                }
+            ]
+        }
+    ]
+}

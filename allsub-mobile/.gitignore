@@ -38,4 +38,9 @@ yarn-error.*
 
 # generated native folders
 /ios
-/android
+# /android - 네이티브 모듈 포함을 위해 주석 처리
+/android/build
+/android/.gradle
+/android/app/build
+/android/app/.cxx
+/android/local.properties

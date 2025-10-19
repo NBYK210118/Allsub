@@ -1,0 +1,98 @@
+[
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/mipmap-hdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/mipmap-hdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/mipmap-mdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/mipmap-mdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/drawable-hdpi_splashscreen_logo.png.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/drawable-hdpi/splashscreen_logo.png"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/mipmap-hdpi_ic_launcher.webp.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/mipmap-hdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/mipmap-xxxhdpi_ic_launcher.webp.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/mipmap-xxxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/mipmap-xhdpi_ic_launcher.webp.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/mipmap-xhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/mipmap-xhdpi_ic_launcher_round.webp.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/mipmap-xhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/mipmap-xxhdpi_ic_launcher.webp.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/mipmap-xxhdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/mipmap-mdpi_ic_launcher.webp.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/mipmap-mdpi/ic_launcher.webp"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/mipmap-xxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/mipmap-xxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/mipmap-xhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/mipmap-xhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/drawable_rn_edit_text_material.xml.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/drawable/rn_edit_text_material.xml"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/mipmap-xxxhdpi_ic_launcher_round.webp.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/mipmap-xxxhdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/drawable-xxhdpi_splashscreen_logo.png.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/drawable-xxhdpi/splashscreen_logo.png"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/drawable-xhdpi_splashscreen_logo.png.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/drawable-xhdpi/splashscreen_logo.png"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/drawable_ic_launcher_background.xml.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/drawable/ic_launcher_background.xml"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/mipmap-xxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/mipmap-xxhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/drawable-xxxhdpi_splashscreen_logo.png.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/drawable-xxxhdpi/splashscreen_logo.png"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/drawable-mdpi_splashscreen_logo.png.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/drawable-mdpi/splashscreen_logo.png"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/mipmap-mdpi_ic_launcher_round.webp.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/mipmap-mdpi/ic_launcher_round.webp"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/mipmap-xxxhdpi_ic_launcher_foreground.webp.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/mipmap-xxxhdpi/ic_launcher_foreground.webp"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.anonymous.allsubmobile.app-debug-54:/mipmap-hdpi_ic_launcher_round.webp.flat",
+        "source": "com.anonymous.allsubmobile.app-main-56:/mipmap-hdpi/ic_launcher_round.webp"
+    }
+]

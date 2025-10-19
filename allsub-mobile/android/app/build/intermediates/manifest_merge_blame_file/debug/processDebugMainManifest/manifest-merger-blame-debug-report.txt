@@ -1,0 +1,279 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.anonymous.allsubmobile"
+4    android:versionCode="1"
+5    android:versionName="1.0.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="24"
+9        android:targetSdkVersion="36" />
+10
+11    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+11-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:9:3-75
+11-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:9:20-73
+12    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+12-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:2:3-74
+12-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:2:20-72
+13    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
+13-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:3:3-91
+13-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:3:20-89
+14    <uses-permission android:name="android.permission.INTERNET" />
+14-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:4:3-64
+14-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:4:20-62
+15    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+15-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:5:3-77
+15-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:5:20-75
+16    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+16-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:6:3-74
+16-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:6:20-72
+17    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+17-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:7:3-77
+17-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:7:20-75
+18    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+18-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:8:3-68
+18-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:8:20-66
+19    <uses-permission android:name="android.permission.VIBRATE" />
+19-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:10:3-63
+19-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:10:20-61
+20    <uses-permission android:name="android.permission.WAKE_LOCK" />
+20-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:11:3-65
+20-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:11:20-63
+21    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+21-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:12:3-78
+21-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:12:20-76
+22
+23    <queries>
+23-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:13:3-19:13
+24        <intent>
+24-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:14:5-18:14
+25            <action android:name="android.intent.action.VIEW" />
+25-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:15:7-58
+25-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:15:15-56
+26
+27            <category android:name="android.intent.category.BROWSABLE" />
+27-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:16:7-67
+27-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:16:17-65
+28
+29            <data android:scheme="https" />
+29-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:17:7-37
+29-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:17:13-35
+30        </intent>
+31        <!-- Query open documents -->
+32        <intent>
+32-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:15:9-17:18
+33            <action android:name="android.intent.action.OPEN_DOCUMENT_TREE" />
+33-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:16:13-79
+33-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:16:21-76
+34        </intent>
+35        <intent>
+35-->[host.exp.exponent:expo.modules.speech:14.0.7] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4a2f60397a9aa0f4e315ee3fcfb8b753\transformed\expo.modules.speech-14.0.7\AndroidManifest.xml:8:9-12:18
+36
+37            <!-- Required for text-to-speech if targeting API 30 -->
+38            <action android:name="android.intent.action.TTS_SERVICE" />
+38-->[host.exp.exponent:expo.modules.speech:14.0.7] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4a2f60397a9aa0f4e315ee3fcfb8b753\transformed\expo.modules.speech-14.0.7\AndroidManifest.xml:11:13-72
+38-->[host.exp.exponent:expo.modules.speech:14.0.7] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4a2f60397a9aa0f4e315ee3fcfb8b753\transformed\expo.modules.speech-14.0.7\AndroidManifest.xml:11:21-69
+39        </intent>
+40    </queries>
+41
+42    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+42-->[com.google.android.exoplayer:exoplayer-core:2.18.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\00284a41299b0bcb6ae9d45c33042224\transformed\exoplayer-core-2.18.1\AndroidManifest.xml:24:5-79
+42-->[com.google.android.exoplayer:exoplayer-core:2.18.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\00284a41299b0bcb6ae9d45c33042224\transformed\exoplayer-core-2.18.1\AndroidManifest.xml:24:22-76
+43
+44    <permission
+44-->[androidx.core:core:1.16.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\9fe7761d13696f8e43555dc66e53931d\transformed\core-1.16.0\AndroidManifest.xml:22:5-24:47
+45        android:name="com.anonymous.allsubmobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+45-->[androidx.core:core:1.16.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\9fe7761d13696f8e43555dc66e53931d\transformed\core-1.16.0\AndroidManifest.xml:23:9-81
+46        android:protectionLevel="signature" />
+46-->[androidx.core:core:1.16.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\9fe7761d13696f8e43555dc66e53931d\transformed\core-1.16.0\AndroidManifest.xml:24:9-44
+47
+48    <uses-permission android:name="com.anonymous.allsubmobile.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+48-->[androidx.core:core:1.16.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\9fe7761d13696f8e43555dc66e53931d\transformed\core-1.16.0\AndroidManifest.xml:26:5-97
+48-->[androidx.core:core:1.16.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\9fe7761d13696f8e43555dc66e53931d\transformed\core-1.16.0\AndroidManifest.xml:26:22-94
+49
+50    <application
+50-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:20:3-35:17
+51        android:name="com.anonymous.allsubmobile.MainApplication"
+51-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:20:16-47
+52        android:allowBackup="true"
+52-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:20:162-188
+53        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+53-->[androidx.core:core:1.16.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\9fe7761d13696f8e43555dc66e53931d\transformed\core-1.16.0\AndroidManifest.xml:28:18-86
+54        android:debuggable="true"
+55        android:enableOnBackInvokedCallback="false"
+55-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:20:248-291
+56        android:extractNativeLibs="false"
+57        android:icon="@mipmap/ic_launcher"
+57-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:20:81-115
+58        android:label="@string/app_name"
+58-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:20:48-80
+59        android:roundIcon="@mipmap/ic_launcher_round"
+59-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:20:116-161
+60        android:supportsRtl="true"
+60-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:20:221-247
+61        android:theme="@style/AppTheme"
+61-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:20:189-220
+62        android:usesCleartextTraffic="true" >
+62-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\debug\AndroidManifest.xml:6:18-53
+63        <meta-data
+63-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:21:5-83
+64            android:name="expo.modules.updates.ENABLED"
+64-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:21:16-59
+65            android:value="false" />
+65-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:21:60-81
+66        <meta-data
+66-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:22:5-105
+67            android:name="expo.modules.updates.EXPO_UPDATES_CHECK_ON_LAUNCH"
+67-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:22:16-80
+68            android:value="ALWAYS" />
+68-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:22:81-103
+69        <meta-data
+69-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:23:5-99
+70            android:name="expo.modules.updates.EXPO_UPDATES_LAUNCH_WAIT_MS"
+70-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:23:16-79
+71            android:value="0" />
+71-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:23:80-97
+72
+73        <activity
+73-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:24:5-29:16
+74            android:name="com.anonymous.allsubmobile.MainActivity"
+74-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:24:15-43
+75            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|uiMode"
+75-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:24:44-134
+76            android:exported="true"
+76-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:24:256-279
+77            android:launchMode="singleTask"
+77-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:24:135-166
+78            android:screenOrientation="portrait"
+78-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:24:280-316
+79            android:theme="@style/Theme.App.SplashScreen"
+79-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:24:210-255
+80            android:windowSoftInputMode="adjustResize" >
+80-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:24:167-209
+81            <intent-filter>
+81-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:25:7-28:23
+82                <action android:name="android.intent.action.MAIN" />
+82-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:26:9-60
+82-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:26:17-58
+83
+84                <category android:name="android.intent.category.LAUNCHER" />
+84-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:27:9-68
+84-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:27:19-66
+85            </intent-filter>
+86        </activity>
+87
+88        <service
+88-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:30:5-34:56
+89            android:name="com.anonymous.allsubmobile.AudioCaptureService"
+89-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:31:7-42
+90            android:enabled="true"
+90-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:32:7-29
+91            android:exported="false"
+91-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:33:7-31
+92            android:foregroundServiceType="mediaProjection" />
+92-->C:\Users\MMC\Downloads\allsub\allsub-mobile\android\app\src\main\AndroidManifest.xml:34:7-54
+93
+94        <meta-data
+94-->[:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:9:9-11:89
+95            android:name="org.unimodules.core.AppLoader#react-native-headless"
+95-->[:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:10:13-79
+96            android:value="expo.modules.adapters.react.apploader.RNHeadlessAppLoader" />
+96-->[:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:11:13-86
+97        <meta-data
+97-->[:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:12:9-15:45
+98            android:name="com.facebook.soloader.enabled"
+98-->[:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:13:13-57
+99            android:value="true" />
+99-->[:expo-modules-core] C:\Users\MMC\Downloads\allsub\allsub-mobile\node_modules\expo-modules-core\android\build\intermediates\merged_manifest\debug\processDebugManifest\AndroidManifest.xml:14:13-33
+100
+101        <activity
+101-->[com.facebook.react:react-android:0.81.4] C:\Users\MMC\.gradle\caches\8.14.3\transforms\80104bb6e704adcf5f2e0c7d97f0d5f7\transformed\react-android-0.81.4-debug\AndroidManifest.xml:19:9-21:40
+102            android:name="com.facebook.react.devsupport.DevSettingsActivity"
+102-->[com.facebook.react:react-android:0.81.4] C:\Users\MMC\.gradle\caches\8.14.3\transforms\80104bb6e704adcf5f2e0c7d97f0d5f7\transformed\react-android-0.81.4-debug\AndroidManifest.xml:20:13-77
+103            android:exported="false" />
+103-->[com.facebook.react:react-android:0.81.4] C:\Users\MMC\.gradle\caches\8.14.3\transforms\80104bb6e704adcf5f2e0c7d97f0d5f7\transformed\react-android-0.81.4-debug\AndroidManifest.xml:21:13-37
+104
+105        <provider
+105-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:21:9-30:20
+106            android:name="expo.modules.filesystem.FileSystemFileProvider"
+106-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:22:13-74
+107            android:authorities="com.anonymous.allsubmobile.FileSystemFileProvider"
+107-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:23:13-74
+108            android:exported="false"
+108-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:24:13-37
+109            android:grantUriPermissions="true" >
+109-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:25:13-47
+110            <meta-data
+110-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:27:13-29:70
+111                android:name="android.support.FILE_PROVIDER_PATHS"
+111-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:28:17-67
+112                android:resource="@xml/file_system_provider_paths" />
+112-->[host.exp.exponent:expo.modules.filesystem:19.0.17] C:\Users\MMC\.gradle\caches\8.14.3\transforms\4bfc2301023bf8126c83933db9d52c9c\transformed\expo.modules.filesystem-19.0.17\AndroidManifest.xml:29:17-67
+113        </provider>
+114        <provider
+114-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+115            android:name="androidx.startup.InitializationProvider"
+115-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+116            android:authorities="com.anonymous.allsubmobile.androidx-startup"
+116-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+117            android:exported="false" >
+117-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+118            <meta-data
+118-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+119                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+119-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+120                android:value="androidx.startup" />
+120-->[androidx.emoji2:emoji2:1.3.0] C:\Users\MMC\.gradle\caches\8.14.3\transforms\33b3eaae8ca44f8ce0916dc1de815c1e\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+121            <meta-data
+121-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\MMC\.gradle\caches\8.14.3\transforms\5e655a89e24fc65d46ad1ba49f72d6c3\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:29:13-31:52
+122                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+122-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\MMC\.gradle\caches\8.14.3\transforms\5e655a89e24fc65d46ad1ba49f72d6c3\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:30:17-78
+123                android:value="androidx.startup" />
+123-->[androidx.lifecycle:lifecycle-process:2.6.2] C:\Users\MMC\.gradle\caches\8.14.3\transforms\5e655a89e24fc65d46ad1ba49f72d6c3\transformed\lifecycle-process-2.6.2\AndroidManifest.xml:31:17-49
+124            <meta-data
+124-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:29:13-31:52
+125                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+125-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:30:17-85
+126                android:value="androidx.startup" />
+126-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:31:17-49
+127        </provider>
+128
+129        <receiver
+129-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:34:9-52:20
+130            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+130-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:35:13-76
+131            android:directBootAware="false"
+131-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:36:13-44
+132            android:enabled="true"
+132-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:37:13-35
+133            android:exported="true"
+133-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:38:13-36
+134            android:permission="android.permission.DUMP" >
+134-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:39:13-57
+135            <intent-filter>
+135-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:40:13-42:29
+136                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+136-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:17-91
+136-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:41:25-88
+137            </intent-filter>
+138            <intent-filter>
+138-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:43:13-45:29
+139                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+139-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:17-85
+139-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:44:25-82
+140            </intent-filter>
+141            <intent-filter>
+141-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:46:13-48:29
+142                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+142-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:17-88
+142-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:47:25-85
+143            </intent-filter>
+144            <intent-filter>
+144-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:49:13-51:29
+145                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+145-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:17-95
+145-->[androidx.profileinstaller:profileinstaller:1.3.1] C:\Users\MMC\.gradle\caches\8.14.3\transforms\bb67c8c4082ead0d52cb39c155478bd2\transformed\profileinstaller-1.3.1\AndroidManifest.xml:50:25-92
+146            </intent-filter>
+147        </receiver>
+148    </application>
+149
+150</manifest>
