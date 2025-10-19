@@ -166,12 +166,15 @@ android {
 }
 
 configurations.all {
-    exclude group: 'com.android.support', module: 'support-compat'
-    exclude group: 'com.android.support', module: 'support-core-utils'
-    exclude group: 'com.android.support', module: 'support-core-ui'
-    exclude group: 'com.android.support', module: 'support-v4'
-    exclude group: 'com.android.support', module: 'animated-vector-drawable'
-    exclude group: 'com.android.support', module: 'versionedparcelable'
+    exclude group: 'com.android.support'
+    exclude module: 'support-compat'
+    exclude module: 'support-core-utils'
+    exclude module: 'support-core-ui'
+    exclude module: 'support-v4'
+    exclude module: 'animated-vector-drawable'
+    exclude module: 'versionedparcelable'
+    exclude module: 'loader'
+    exclude module: 'appcompat-v7'
 }
 
 dependencies {
