@@ -125,6 +125,17 @@ class SubtitleService {
     targetLanguage: string = 'en'
   ): Promise<boolean> {
     try {
+      console.log('');
+      console.log('╔═══════════════════════════════════════════════╗');
+      console.log('║   🚀 SubtitleService.start() 호출됨          ║');
+      console.log('╚═══════════════════════════════════════════════╝');
+      console.log('📍 SERVER_URL:', SERVER_URL);
+      console.log('👤 User ID:', userId);
+      console.log('🗣️  Source Language:', sourceLanguage);
+      console.log('🌍 Target Language:', targetLanguage);
+      console.log('═'.repeat(50));
+      console.log('');
+      
       // 환경 정보 로깅
       Diagnostics.logEnvironmentInfo();
       
@@ -132,7 +143,10 @@ class SubtitleService {
       this.onStateUpdate = onStateUpdate;
 
       // 1. WebSocket 서버에 연결
+      console.log('🔌 WebSocket 연결 시도 중...');
+      console.log('   URL:', SERVER_URL);
       const connected = await WebSocketService.connect(SERVER_URL);
+      console.log('🔌 WebSocket 연결 결과:', connected);
       if (!connected) {
         Diagnostics.logConnectionFailure(SERVER_URL);
         Diagnostics.logServiceStartFailure('WebSocket 연결 실패');
@@ -157,7 +171,7 @@ class SubtitleService {
           // 시스템 오디오 직접 캡처 (백엔드로 직접 전송)
           audioStarted = await SystemAudioService.start(
             SERVER_URL.replace('http://', '').replace('https://', ''),
-            3000 // 별도 포트 사용 (WebSocket과 분리)
+            3001 // 오디오 스트림 전용 TCP 포트
           );
           
           if (audioStarted) {

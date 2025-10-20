@@ -40,7 +40,8 @@ class WebSocketService {
         console.log('');
         
         this.socket = io(serverUrl, {
-          transports: ['polling', 'websocket'],  // polling 먼저 시도 후 websocket 업그레이드
+          transports: ['websocket'],  // WebSocket만 사용 (Android 에뮬레이터 호환)
+          upgrade: false,  // polling에서 websocket으로 업그레이드 시도 안 함
           reconnection: true,
           reconnectionDelay: 1000,
           reconnectionDelayMax: 5000,
@@ -48,7 +49,9 @@ class WebSocketService {
           timeout: 10000,
           forceNew: true,
           autoConnect: true,
-          path: '/socket.io/',
+          path: '/socket.io',  // 끝 슬래시 제거
+          secure: false,  // HTTPS 사용 안 함
+          rejectUnauthorized: false,  // 인증서 검증 안 함
         });
 
         this.socket.on('connect', () => {
@@ -138,10 +141,32 @@ class WebSocketService {
         // 연결 타임아웃 설정
         setTimeout(() => {
           if (!this.isConnected) {
+            console.log('');
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+            console.log('⏱️  WebSocket 연결 타임아웃 (10초)');
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+            console.log('📍 Server URL:', serverUrl);
+            console.log('🔢 재연결 시도:', this.reconnectAttempts, '/', this.maxReconnectAttempts);
+            console.log('');
+            console.log('💡 가능한 원인:');
+            console.log('   1. 백엔드 서버가 실행되지 않음');
+            console.log('   2. 잘못된 URL:', serverUrl);
+            console.log('   3. 네트워크 연결 문제');
+            console.log('   4. 방화벽 차단');
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+            console.log('');
             resolve(false);
           }
         }, 10000);
       } catch (error) {
+        console.log('');
+        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        console.log('❌ WebSocket 생성 중 예외 발생');
+        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        console.log('📍 Server URL:', serverUrl);
+        console.log('❗ Error:', error);
+        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        console.log('');
         console.error('Failed to create socket connection:', error);
         resolve(false);
       }

@@ -42,10 +42,30 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
   ) {}
 
   handleConnection(client: Socket) {
+    console.log('');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('✅ WebSocket 클라이언트 연결됨');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('🆔 Socket ID:', client.id);
+    console.log('📡 Transport:', client.conn.transport.name);
+    console.log('🌐 Client IP:', client.handshake.address);
+    console.log('📋 Headers:', JSON.stringify(client.handshake.headers, null, 2));
+    console.log('🔗 Query:', client.handshake.query);
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('');
+    
     this.logger.log(`Client connected: ${client.id}`);
   }
 
   handleDisconnect(client: Socket) {
+    console.log('');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('🔌 WebSocket 클라이언트 연결 해제됨');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('🆔 Socket ID:', client.id);
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('');
+    
     this.logger.log(`Client disconnected: ${client.id}`);
     this.sessions.delete(client.id);
   }
@@ -55,6 +75,17 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
     @ConnectedSocket() client: Socket,
     @MessageBody() data: { userId: string; language?: string; targetLanguage?: string },
   ) {
+    console.log('');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('🎬 [start-subtitle] 요청 수신');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('🆔 Client ID:', client.id);
+    console.log('👤 User ID:', data.userId);
+    console.log('🗣️  Source Language:', data.language || 'ko-KR');
+    console.log('🌍 Target Language:', data.targetLanguage || 'en');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('');
+    
     this.logger.log(`Starting subtitle service for client: ${client.id}`);
     
     const session: ClientSession = {
@@ -66,25 +97,44 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
     
     this.sessions.set(client.id, session);
     
+    console.log('✅ 세션 생성 완료. 총 활성 세션:', this.sessions.size);
+    
     client.emit('subtitle-status', { 
       status: 'started',
       message: '자막 서비스가 시작되었습니다.' 
     });
+    
+    console.log('📤 subtitle-status 이벤트 전송 완료');
+    console.log('');
   }
 
   @SubscribeMessage('stop-subtitle')
   handleStopSubtitle(@ConnectedSocket() client: Socket) {
+    console.log('');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('🛑 [stop-subtitle] 요청 수신');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('🆔 Client ID:', client.id);
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('');
+    
     this.logger.log(`Stopping subtitle service for client: ${client.id}`);
     
     const session = this.sessions.get(client.id);
     if (session) {
       session.isActive = false;
+      console.log('✅ 세션 비활성화 완료');
+    } else {
+      console.log('⚠️  세션을 찾을 수 없음');
     }
     
     client.emit('subtitle-status', { 
       status: 'stopped',
       message: '자막 서비스가 중지되었습니다.' 
     });
+    
+    console.log('📤 subtitle-status 이벤트 전송 완료');
+    console.log('');
   }
 
   @SubscribeMessage('audio-chunk')
@@ -92,9 +142,22 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
     @ConnectedSocket() client: Socket,
     @MessageBody() data: { audio: Buffer | string; encoding?: string },
   ) {
+    console.log('');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('🎤 [audio-chunk] 요청 수신');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('🆔 Client ID:', client.id);
+    console.log('📦 Data type:', typeof data.audio);
+    console.log('📏 Data size:', typeof data.audio === 'string' ? data.audio.length + ' chars' : 'buffer');
+    console.log('🔢 Encoding:', data.encoding || 'unknown');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('');
+    
     const session = this.sessions.get(client.id);
     
     if (!session || !session.isActive) {
+      console.log('⚠️  세션이 비활성화되어 있거나 존재하지 않음');
+      console.log('');
       return;
     }
 
@@ -151,6 +214,7 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
 
   @SubscribeMessage('ping')
   handlePing(@ConnectedSocket() client: Socket) {
+    console.log('🏓 [ping] 수신 → [pong] 전송 (Client ID:', client.id + ')');
     client.emit('pong');
   }
 }

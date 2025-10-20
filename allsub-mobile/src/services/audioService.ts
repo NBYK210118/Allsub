@@ -1,5 +1,4 @@
 import { Audio } from 'expo-av';
-import * as FileSystem from 'expo-file-system';
 
 export interface AudioServiceState {
   isRecording: boolean;
@@ -103,6 +102,18 @@ class AudioService {
   }
 
   /**
+   * ArrayBuffer를 Base64로 변환
+   */
+  private arrayBufferToBase64(buffer: ArrayBuffer): string {
+    const bytes = new Uint8Array(buffer);
+    let binary = '';
+    for (let i = 0; i < bytes.byteLength; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary);
+  }
+
+  /**
    * 청크 단위로 녹음 수행
    * 완전히 재설계: 순차적 녹음 보장
    */
@@ -155,15 +166,27 @@ class AudioService {
         // 7. 오디오 파일 처리
         if (uri && this.onAudioChunkCallback) {
           try {
-            const base64Audio = await FileSystem.readAsStringAsync(uri, {
-              encoding: 'base64',
+            // React Native fetch는 file:// URI를 base64로 직접 읽을 수 있음
+            const response = await fetch(uri);
+            const blob = await response.blob();
+            
+            // Blob을 ArrayBuffer로 변환 후 base64 인코딩
+            const arrayBuffer = await new Promise<ArrayBuffer>((resolve, reject) => {
+              const fileReaderInstance = new FileReader();
+              fileReaderInstance.onload = () => {
+                resolve(fileReaderInstance.result as ArrayBuffer);
+              };
+              fileReaderInstance.onerror = reject;
+              fileReaderInstance.readAsArrayBuffer(blob);
             });
+
+            // ArrayBuffer를 base64로 변환
+            const base64Audio = this.arrayBufferToBase64(arrayBuffer);
 
             console.log('📤 오디오 청크 전송 (크기:', Math.round(base64Audio.length / 1024), 'KB)');
             this.onAudioChunkCallback(base64Audio);
 
-            // 임시 파일 삭제
-            await FileSystem.deleteAsync(uri, { idempotent: true });
+            // Note: React Native의 file:// URI는 자동으로 정리됨
           } catch (fileError) {
             console.error('파일 처리 에러:', fileError);
           }

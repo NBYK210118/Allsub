@@ -37,23 +37,43 @@ const DEV_DEVICE_CONFIG = {
  * 현재 환경에 맞는 설정을 반환합니다.
  */
 function getEnvironmentConfig() {
+  console.log('');
+  console.log('╔═══════════════════════════════════════════════╗');
+  console.log('║   🔧 Environment 설정 결정 중...             ║');
+  console.log('╚═══════════════════════════════════════════════╝');
+  console.log('📱 Platform.OS:', Platform.OS);
+  console.log('🔧 __DEV__:', __DEV__);
+  console.log('');
+  
   // 프로덕션 환경
   if (!__DEV__) {
-    console.log('🚀 Using PRODUCTION config');
+    console.log('✅ 선택: PRODUCTION config');
+    console.log('   → API:', PRODUCTION_CONFIG.apiBaseUrl);
+    console.log('   → WS:', PRODUCTION_CONFIG.wsBaseUrl);
+    console.log('');
     return PRODUCTION_CONFIG;
   }
 
   // 개발 환경
   if (Platform.OS === 'ios') {
-    console.log('📱 Using iOS SIMULATOR config');
+    console.log('✅ 선택: iOS SIMULATOR config');
+    console.log('   → API:', IOS_SIMULATOR_CONFIG.apiBaseUrl);
+    console.log('   → WS:', IOS_SIMULATOR_CONFIG.wsBaseUrl);
+    console.log('');
     return IOS_SIMULATOR_CONFIG;
   } else if (Platform.OS === 'android') {
-    console.log('🤖 Using ANDROID EMULATOR config');
+    console.log('✅ 선택: ANDROID EMULATOR config');
+    console.log('   → API:', ANDROID_EMULATOR_CONFIG.apiBaseUrl);
+    console.log('   → WS:', ANDROID_EMULATOR_CONFIG.wsBaseUrl);
+    console.log('');
     return ANDROID_EMULATOR_CONFIG;
   }
 
   // 기본값 (web 등)
-  console.log('🌐 Using default config');
+  console.log('✅ 선택: DEFAULT config (iOS)');
+  console.log('   → API:', IOS_SIMULATOR_CONFIG.apiBaseUrl);
+  console.log('   → WS:', IOS_SIMULATOR_CONFIG.wsBaseUrl);
+  console.log('');
   return IOS_SIMULATOR_CONFIG;
 }
 

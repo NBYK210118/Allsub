@@ -14,6 +14,7 @@ const HomeScreen: React.FC = () => {
   
   const { isCaptionEnabled, toggleCaption } = useAppStore();
   const [showStatusText, setShowStatusText] = useState(false);
+  const [statusMessage, setStatusMessage] = useState<'on' | 'off'>('off'); // 토글 후 상태를 저장
   const [showMenu, setShowMenu] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [subtitleServiceState, setSubtitleServiceState] = useState<SubtitleServiceState>({
@@ -28,6 +29,17 @@ const HomeScreen: React.FC = () => {
   const statusOpacity = useRef(new Animated.Value(0)).current;
   const statusScale = useRef(new Animated.Value(0.8)).current;
   const gradientOpacity = useRef(new Animated.Value(isCaptionEnabled ? 1 : 0)).current;
+  
+  // 블롭(원형 그라디언트) 애니메이션 값
+  const blob1X = useRef(new Animated.Value(0)).current;
+  const blob1Y = useRef(new Animated.Value(0)).current;
+  const blob1Scale = useRef(new Animated.Value(1)).current;
+  const blob2X = useRef(new Animated.Value(0)).current;
+  const blob2Y = useRef(new Animated.Value(0)).current;
+  const blob2Scale = useRef(new Animated.Value(1)).current;
+  const blob3X = useRef(new Animated.Value(0)).current;
+  const blob3Y = useRef(new Animated.Value(0)).current;
+  const blob3Scale = useRef(new Animated.Value(1)).current;
 
   // Gradient 색상 전환 애니메이션
   useEffect(() => {
@@ -37,6 +49,49 @@ const HomeScreen: React.FC = () => {
       useNativeDriver: true,
     }).start();
   }, [isCaptionEnabled, gradientOpacity]);
+
+  // 블롭 애니메이션 루프
+  useEffect(() => {
+    const makeBlobLoop = (
+      x: Animated.Value,
+      y: Animated.Value,
+      s: Animated.Value,
+      dx: number,
+      dy: number,
+      minScale: number,
+      maxScale: number,
+      duration: number,
+      delay: number
+    ) => {
+      const move = Animated.loop(
+        Animated.sequence([
+          Animated.delay(delay),
+          Animated.parallel([
+            Animated.timing(x, { toValue: dx, duration, useNativeDriver: true }),
+            Animated.timing(y, { toValue: dy, duration, useNativeDriver: true }),
+            Animated.timing(s, { toValue: maxScale, duration, useNativeDriver: true }),
+          ]),
+          Animated.parallel([
+            Animated.timing(x, { toValue: -dx, duration, useNativeDriver: true }),
+            Animated.timing(y, { toValue: -dy, duration, useNativeDriver: true }),
+            Animated.timing(s, { toValue: minScale, duration, useNativeDriver: true }),
+          ]),
+        ])
+      );
+      move.start();
+      return () => move.stop();
+    };
+
+    const stop1 = makeBlobLoop(blob1X, blob1Y, blob1Scale, 20, 12, 0.9, 1.05, 8000, 0);
+    const stop2 = makeBlobLoop(blob2X, blob2Y, blob2Scale, 18, 18, 0.95, 1.1, 9000, 600);
+    const stop3 = makeBlobLoop(blob3X, blob3Y, blob3Scale, 25, 14, 0.92, 1.08, 10000, 1200);
+
+    return () => {
+      stop1?.();
+      stop2?.();
+      stop3?.();
+    };
+  }, [blob1X, blob1Y, blob1Scale, blob2X, blob2Y, blob2Scale, blob3X, blob3Y, blob3Scale]);
 
   // 자막 서비스 상태 관리
   useEffect(() => {
@@ -130,28 +185,59 @@ const HomeScreen: React.FC = () => {
 
   const handleToggle = async () => {
     console.log('Before toggle. isCaptionEnabled:', isCaptionEnabled);
+    const newState = !isCaptionEnabled; // 새로운 상태를 미리 계산
+    setStatusMessage(newState ? 'on' : 'off'); // 새로운 상태를 메시지에 저장
     await toggleCaption();
-    console.log('After toggle. isCaptionEnabled:', isCaptionEnabled);
+    console.log('After toggle. New state should be:', newState);
     setShowStatusText(true);
   };
 
+  // 블롭 트랜스폼 구성
+  const blob1Transform = [{ translateX: blob1X }, { translateY: blob1Y }, { scale: blob1Scale }];
+  const blob2Transform = [{ translateX: blob2X }, { translateY: blob2Y }, { scale: blob2Scale }];
+  const blob3Transform = [{ translateX: blob3X }, { translateY: blob3Y }, { scale: blob3Scale }];
+
   return (
     <View style={styles.container}>
-      {/* OFF 상태 Gradient (배경) */}
+      {/* 최하단 배경 */}
       <LinearGradient
-        colors={['#9595A0', '#8A93FB', '#595D8B']}
-        locations={[0.21, 0.81, 1.0]}
+        colors={isCaptionEnabled ? ['#2a2438', '#3d3154', '#2a2438'] : ['#52525f', '#606075', '#52525f']}
+        locations={[0.0, 0.5, 1.0]}
         style={styles.gradientContainer}
       />
-      
-      {/* ON 상태 Gradient (오버레이) */}
-      <Animated.View style={[styles.gradientOverlay, { opacity: gradientOpacity }]}>
-        <LinearGradient
-          colors={['#363163', '#8A93FB', '#595D8B']}
-          locations={[0.21, 0.81, 1.0]}
-          style={styles.gradientContainer}
-        />
-      </Animated.View>
+
+      {/* 블롭 레이어 */}
+      <View style={styles.blobsContainer} pointerEvents="none">
+        {/* Blob 1 */}
+        <Animated.View style={[styles.blob, styles.blob1, { transform: blob1Transform, opacity: 0.35 }]}
+        >
+          <LinearGradient
+            colors={isCaptionEnabled ? ['#7C3AED', '#4F46E5'] : ['#A7A7B5', '#8A93FB']}
+            locations={[0.1, 0.9]}
+            style={styles.blobFill}
+          />
+        </Animated.View>
+
+        {/* Blob 2 */}
+        <Animated.View style={[styles.blob, styles.blob2, { transform: blob2Transform, opacity: 0.28 }]}
+        >
+          <LinearGradient
+            colors={isCaptionEnabled ? ['#22D3EE', '#8B5CF6'] : ['#94A3B8', '#8A93FB']}
+            locations={[0.0, 1.0]}
+            style={styles.blobFill}
+          />
+        </Animated.View>
+
+        {/* Blob 3 */}
+        <Animated.View style={[styles.blob, styles.blob3, { transform: blob3Transform, opacity: 0.22 }]}
+        >
+          <LinearGradient
+            colors={isCaptionEnabled ? ['#F472B6', '#60A5FA'] : ['#B0B0C0', '#8A93FB']}
+            locations={[0.0, 1.0]}
+            style={styles.blobFill}
+          />
+        </Animated.View>
+      </View>
 
       {/* Background Notice */}
       <BackgroundNotice isServiceActive={isCaptionEnabled} />
@@ -198,6 +284,26 @@ const HomeScreen: React.FC = () => {
               </View>
             </View>
           )}
+
+          {/* Android 시스템 오버레이 안내 */}
+          {Platform.OS === 'android' && (
+            <View style={styles.liveActivityNotice}>
+              <Text style={styles.liveActivityIcon}>
+                {isCaptionEnabled ? '💬' : '⏸️'}
+              </Text>
+              <View style={styles.liveActivityTextContainer}>
+                <Text style={styles.liveActivityTitle}>
+                  {isCaptionEnabled ? '자막 서비스 활성화됨' : '자막 서비스 비활성화됨'}
+                </Text>
+                <Text style={styles.liveActivityDescription}>
+                  {isCaptionEnabled 
+                    ? '플로팅 버튼을 터치하면\n언제든지 실시간 자막을 확인할 수 있습니다!'
+                    : '자막 서비스를 켜면\n다른 앱 사용 중에도 자막을 볼 수 있습니다.'
+                  }
+                </Text>
+              </View>
+            </View>
+          )}
         </View>
 
         {/* Status Message Container - Bottom Area */}
@@ -214,7 +320,7 @@ const HomeScreen: React.FC = () => {
             >
               <View style={styles.statusButtonInner}>
                 <Text style={styles.statusText}>
-                  {isCaptionEnabled ? 'Turned On' : 'Turned Off'}
+                  {statusMessage === 'on' ? 'Turned On' : 'Turned Off'}
                 </Text>
                 <Text style={styles.statusIcon}>✕</Text>
               </View>
@@ -349,6 +455,43 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  blobsContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    overflow: 'hidden',
+  },
+  blob: {
+    position: 'absolute',
+    width: 320,
+    height: 320,
+    borderRadius: 160,
+    filter: 'blur(18px)',
+  },
+  blob1: {
+    top: -60,
+    left: -40,
+  },
+  blob2: {
+    bottom: -80,
+    right: -40,
+    width: 380,
+    height: 380,
+    borderRadius: 190,
+  },
+  blob3: {
+    top: '35%',
+    right: -60,
+    width: 260,
+    height: 260,
+    borderRadius: 130,
+  },
+  blobFill: {
+    flex: 1,
+    borderRadius: 1000,
+  },
   gradientContainer: {
     position: 'absolute',
     top: 0,
@@ -356,12 +499,63 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
-  gradientOverlay: {
+  depthContainer: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
+  },
+  depthLayer: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+  },
+  depthLayer1: {
+    top: 0,
+    height: '50%',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 15,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 25,
+    elevation: 10,
+  },
+  depthLayer2: {
+    top: '20%',
+    height: '60%',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 20,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 30,
+    elevation: 20,
+  },
+  depthLayer3: {
+    top: '40%',
+    height: '60%',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 25,
+    },
+    shadowOpacity: 0.35,
+    shadowRadius: 35,
+    elevation: 30,
+  },
+  shadowWrapper: {
+    flex: 1,
+    borderRadius: 30,
+    overflow: 'hidden',
+    backgroundColor: 'transparent',
+  },
+  layerGradient: {
+    flex: 1,
+    opacity: 0.8,
   },
   contentWrapper: {
     flex: 1,
