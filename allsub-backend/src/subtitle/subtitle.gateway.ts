@@ -10,6 +10,7 @@ import {
 import { Server, Socket } from 'socket.io';
 import { Injectable, Logger } from '@nestjs/common';
 import { SpeechService } from './speech.service';
+import { WhisperService } from './whisper.service';
 import { TranslationService } from './translation.service';
 
 interface ClientSession {
@@ -25,6 +26,7 @@ interface ClientSession {
     origin: '*',
     credentials: true,
   },
+  transports: ['websocket', 'polling'],
 })
 export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @WebSocketServer()
@@ -35,6 +37,7 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
 
   constructor(
     private readonly speechService: SpeechService,
+    private readonly whisperService: WhisperService,
     private readonly translationService: TranslationService,
   ) {}
 
@@ -105,13 +108,17 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
         audioBuffer = Buffer.from(data.audio);
       }
 
-      // 음성 인식 수행
-      const transcription = await this.speechService.transcribeAudio(
+      // 음성 인식 수행 (Whisper API 우선 사용)
+      this.logger.log(`🎤 오디오 처리 시작 (크기: ${audioBuffer.length} bytes)`);
+      
+      const transcription = await this.whisperService.transcribeAudio(
         audioBuffer,
         session.language,
       );
 
       if (transcription && transcription.trim()) {
+        this.logger.log(`📝 음성 인식 결과: ${transcription}`);
+        
         // 번역 수행 (필요한 경우)
         let translatedText = transcription;
         if (session.targetLanguage && session.targetLanguage !== session.language) {
@@ -119,6 +126,7 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
             transcription,
             session.targetLanguage,
           );
+          this.logger.log(`🌍 번역 결과: ${translatedText}`);
         }
 
         // 클라이언트에 자막 전송
@@ -128,7 +136,9 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
           timestamp: new Date().toISOString(),
         });
 
-        this.logger.log(`Subtitle sent to ${client.id}: ${transcription}`);
+        this.logger.log(`📤 자막 전송 완료 → ${client.id}`);
+      } else {
+        this.logger.warn('⚠️  음성 인식 결과 없음 (소리가 감지되지 않았거나 너무 짧음)');
       }
     } catch (error) {
       this.logger.error(`Error processing audio chunk: ${error.message}`);

@@ -22,12 +22,18 @@ export const useAppStore = create<AppState>((set, get) => ({
     try {
       const { userId } = get();
       const settings = await ApiService.toggleCaption(userId);
-      set({ 
-        isCaptionEnabled: settings.isCaptionEnabled,
-        captionText: settings.captionText 
-      });
-    } catch (error) {
-      console.log('API 호출 실패, 로컬 상태만 변경:', error.message);
+      if (settings) {
+        set({ 
+          isCaptionEnabled: settings.isCaptionEnabled,
+          captionText: settings.captionText 
+        });
+      } else {
+        // 오프라인 모드: 로컬 상태만 변경
+        console.log('오프라인 모드: 로컬 상태만 변경');
+        set((state) => ({ isCaptionEnabled: !state.isCaptionEnabled }));
+      }
+    } catch (error: any) {
+      console.log('API 호출 실패, 로컬 상태만 변경:', error?.message);
       // 오프라인 모드에서는 로컬 상태만 변경
       set((state) => ({ isCaptionEnabled: !state.isCaptionEnabled }));
     }
@@ -37,7 +43,13 @@ export const useAppStore = create<AppState>((set, get) => ({
     try {
       const { userId, isCaptionEnabled } = get();
       const settings = await ApiService.updateSettings(userId, isCaptionEnabled, text);
-      set({ captionText: settings.captionText });
+      if (settings) {
+        set({ captionText: settings.captionText });
+      } else {
+        // 오프라인 모드: 로컬 상태만 변경
+        console.log('오프라인 모드: 로컬 상태만 변경');
+        set({ captionText: text });
+      }
     } catch (error) {
       console.error('Failed to update caption text:', error);
       // 오프라인 모드에서는 로컬 상태만 변경
@@ -51,14 +63,17 @@ export const useAppStore = create<AppState>((set, get) => ({
     try {
       const { userId } = get();
       const settings = await ApiService.getUserSettings(userId);
-      if (settings) {
+      if (settings && settings.captionText) {
         // 항상 OFF로 시작하도록 강제
         set({ 
           isCaptionEnabled: false, // 항상 OFF로 시작
           captionText: settings.captionText 
         });
+        console.log('User settings loaded from server');
+      } else {
+        // settings가 null이면 기본값 사용
+        console.log('Using default settings (server not available)');
       }
-      // settings가 null이면 기본값 사용
     } catch (error) {
       console.error('Failed to load user settings:', error);
       // 기본값 사용 (이미 false로 설정됨)

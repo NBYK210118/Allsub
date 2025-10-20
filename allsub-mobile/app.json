@@ -10,8 +10,15 @@
       "supportsTablet": true,
       "infoPlist": {
         "NSMicrophoneUsageDescription": "This app needs access to microphone to provide real-time subtitles.",
-        "NSSpeechRecognitionUsageDescription": "This app uses speech recognition to convert audio to text for subtitles."
-      }
+        "NSSpeechRecognitionUsageDescription": "This app uses speech recognition to convert audio to text for subtitles.",
+        "NSSupportsLiveActivities": true,
+        "UIBackgroundModes": [
+          "audio",
+          "fetch",
+          "processing"
+        ]
+      },
+      "bundleIdentifier": "com.anonymous.allsubmobile"
     },
     "android": {
       "adaptiveIcon": {

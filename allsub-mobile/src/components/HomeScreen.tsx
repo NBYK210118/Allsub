@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Animated, Image, Modal } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated, Image, Modal, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import AnimatedToggle from './AnimatedToggle';
 import SubtitleOverlay from './SubtitleOverlay';
+import FloatingButton from './FloatingButton';
+import BackgroundNotice from './BackgroundNotice';
+import DebugConfig from './DebugConfig';
 import { useAppStore } from '../store/useAppStore';
 import SubtitleService, { SubtitleServiceState } from '../services/subtitleService';
 
@@ -62,9 +65,7 @@ const HomeScreen: React.FC = () => {
         'en' // 타겟 언어 (영어)
       ).then(success => {
         console.log('HomeScreen: Subtitle service start result:', success);
-        if (success) {
-          setShowSubtitleOverlay(true);
-        } else {
+        if (!success) {
           console.error('HomeScreen: Failed to start subtitle service');
         }
       }).catch(error => {
@@ -83,6 +84,11 @@ const HomeScreen: React.FC = () => {
       SubtitleService.stop();
     };
   }, [isCaptionEnabled]);
+
+  // 플로팅 버튼 클릭 핸들러
+  const handleFloatingButtonPress = () => {
+    setShowSubtitleOverlay(!showSubtitleOverlay);
+  };
 
   useEffect(() => {
     if (showStatusText) {
@@ -147,6 +153,9 @@ const HomeScreen: React.FC = () => {
         />
       </Animated.View>
 
+      {/* Background Notice */}
+      <BackgroundNotice isServiceActive={isCaptionEnabled} />
+
       {/* Content */}
       <View style={styles.contentWrapper}>
         {/* Header */}
@@ -169,6 +178,26 @@ const HomeScreen: React.FC = () => {
         {/* Main Content */}
         <View style={styles.mainContent}>
           <AnimatedToggle isEnabled={isCaptionEnabled} onToggle={handleToggle} />
+          
+          {/* iOS Live Activities 안내 */}
+          {Platform.OS === 'ios' && (
+            <View style={styles.liveActivityNotice}>
+              <Text style={styles.liveActivityIcon}>
+                {isCaptionEnabled ? '🏝️' : '⏸️'}
+              </Text>
+              <View style={styles.liveActivityTextContainer}>
+                <Text style={styles.liveActivityTitle}>
+                  {isCaptionEnabled ? 'Live Activities 활성화됨' : 'Live Activities 비활성화됨'}
+                </Text>
+                <Text style={styles.liveActivityDescription}>
+                  {isCaptionEnabled 
+                    ? 'YouTube Premium 백그라운드 재생 시\nDynamic Island와 잠금 화면에서 자막을 확인하세요!'
+                    : '자막 서비스를 켜면 Live Activities가\nDynamic Island와 잠금 화면에 표시됩니다.'
+                  }
+                </Text>
+              </View>
+            </View>
+          )}
         </View>
 
         {/* Status Message Container - Bottom Area */}
@@ -295,6 +324,13 @@ const HomeScreen: React.FC = () => {
         </TouchableOpacity>
       </Modal>
 
+      {/* Floating Button */}
+      <FloatingButton
+        isVisible={isCaptionEnabled}
+        onPress={handleFloatingButtonPress}
+        isExpanded={showSubtitleOverlay}
+      />
+
       {/* Subtitle Overlay */}
       <SubtitleOverlay
         isVisible={showSubtitleOverlay}
@@ -302,6 +338,9 @@ const HomeScreen: React.FC = () => {
         translation={subtitleServiceState.currentTranslation}
         onClose={() => setShowSubtitleOverlay(false)}
       />
+
+      {/* Debug Config (개발 모드에서만 표시) */}
+      <DebugConfig />
     </View>
   );
 };
@@ -362,7 +401,7 @@ const styles = StyleSheet.create({
     flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 90,
+    marginTop: 180,
   },
   statusMessageContainer: {
     flex: 1,
@@ -492,6 +531,35 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#6B7280',
     fontWeight: '500',
+  },
+  liveActivityNotice: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(139, 92, 246, 0.15)',
+    borderRadius: 16,
+    padding: 16,
+    marginTop: 100,
+    marginHorizontal: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(139, 92, 246, 0.3)',
+  },
+  liveActivityIcon: {
+    fontSize: 32,
+    marginRight: 12,
+  },
+  liveActivityTextContainer: {
+    flex: 1,
+  },
+  liveActivityTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: 'white',
+    marginBottom: 4,
+  },
+  liveActivityDescription: {
+    fontSize: 12,
+    color: 'rgba(255, 255, 255, 0.8)',
+    lineHeight: 18,
   },
 });
 

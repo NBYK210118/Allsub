@@ -40,21 +40,25 @@
 npm install
 ```
 
-### 2. 백엔드 서버 주소 설정
+### 2. 환경 설정 (선택사항)
 
-`src/services/subtitleService.ts` 파일에서 서버 URL을 설정합니다:
+**기본 설정으로 바로 사용 가능합니다!** 🎉
 
-```typescript
-const SERVER_URL = 'http://YOUR_COMPUTER_IP:3000';
-```
+플랫폼별로 자동 설정됩니다:
+- **iOS 시뮬레이터**: `http://localhost:3000` (자동)
+- **Android 에뮬레이터**: `http://10.0.2.2:3000` (자동)
 
-또는 `src/services/api.ts`에서:
+**실제 디바이스에서 테스트하려면:**
+1. `src/config/environment.ts` 파일 열기
+2. `DEV_DEVICE_CONFIG`에서 개발 PC의 WiFi IP 입력
+   ```typescript
+   const DEV_DEVICE_CONFIG = {
+     apiBaseUrl: 'http://192.168.0.15:3000',  // 실제 IP로 변경
+     wsBaseUrl: 'http://192.168.0.15:3000',
+   };
+   ```
 
-```typescript
-const API_BASE_URL = __DEV__ 
-  ? 'http://YOUR_COMPUTER_IP:3000' 
-  : 'http://localhost:3000';
-```
+자세한 설정 방법: [ENVIRONMENT_CONFIG.md](./ENVIRONMENT_CONFIG.md) 참고
 
 ### 3. 앱 실행
 

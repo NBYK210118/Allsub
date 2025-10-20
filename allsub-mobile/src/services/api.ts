@@ -1,8 +1,4 @@
-// Android 에뮬레이터: 10.0.2.2 = 호스트 PC의 localhost
-// 실제 디바이스: PC의 실제 IP 주소 사용
-const API_BASE_URL = __DEV__ 
-  ? 'http://10.0.2.2:3000'  // 에뮬레이터용
-  : 'http://210.115.229.181:3000'; // 실제 디바이스용
+import { API_BASE_URL } from '../config/environment';
 
 export interface UserSettings {
   id: string;
@@ -34,27 +30,42 @@ export class ApiService {
     return response.json();
   }
 
-  static async getUserSettings(userId: string): Promise<UserSettings> {
-    return this.request<UserSettings>(`/settings/${userId}`);
+  static async getUserSettings(userId: string): Promise<UserSettings | null> {
+    try {
+      return await this.request<UserSettings>(`/settings/${userId}`);
+    } catch (error) {
+      console.log('Failed to fetch user settings from server:', error);
+      return null;
+    }
   }
 
-  static async toggleCaption(userId: string): Promise<UserSettings> {
-    return this.request<UserSettings>(`/settings/${userId}/toggle`, {
-      method: 'POST',
-    });
+  static async toggleCaption(userId: string): Promise<UserSettings | null> {
+    try {
+      return await this.request<UserSettings>(`/settings/${userId}/toggle`, {
+        method: 'POST',
+      });
+    } catch (error) {
+      console.log('Failed to toggle caption on server:', error);
+      return null;
+    }
   }
 
   static async updateSettings(
     userId: string,
     isCaptionEnabled: boolean,
     captionText?: string
-  ): Promise<UserSettings> {
-    return this.request<UserSettings>(`/settings/${userId}/update`, {
-      method: 'POST',
-      body: JSON.stringify({
-        isCaptionEnabled,
-        captionText,
-      }),
-    });
+  ): Promise<UserSettings | null> {
+    try {
+      return await this.request<UserSettings>(`/settings/${userId}/update`, {
+        method: 'POST',
+        body: JSON.stringify({
+          isCaptionEnabled,
+          captionText,
+        }),
+      });
+    } catch (error) {
+      console.log('Failed to update settings on server:', error);
+      return null;
+    }
   }
 }

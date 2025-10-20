@@ -8,19 +8,41 @@ export interface AudioServiceState {
 }
 
 class AudioService {
-  private recording: Audio.Recording | null = null;
+  private currentRecording: Audio.Recording | null = null;
   private isRecording = false;
   private hasPermission = false;
-  private recordingInterval: NodeJS.Timeout | null = null;
+  private recordingTimer: NodeJS.Timeout | null = null;
   private onAudioChunkCallback?: (audioData: string) => void;
+  private isProcessingChunk = false; // 청크 처리 중 플래그
 
   async requestPermissions(): Promise<boolean> {
     try {
+      console.log('');
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('🎙️  마이크 권한 요청');
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      
       const { status } = await Audio.requestPermissionsAsync();
       this.hasPermission = status === 'granted';
+      
+      if (this.hasPermission) {
+        console.log('✅ 마이크 권한 허용됨!');
+      } else {
+        console.log('❌ 마이크 권한 거부됨!');
+        console.log('📱 설정 → AllSub → 마이크 권한 확인 필요');
+      }
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('');
+      
       return this.hasPermission;
     } catch (error) {
-      console.error('Failed to request audio permissions:', error);
+      console.error('');
+      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.error('❌ 마이크 권한 요청 실패');
+      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.error('Error:', error);
+      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.error('');
       return false;
     }
   }
@@ -35,10 +57,23 @@ class AudioService {
   ): Promise<boolean> {
     if (!this.hasPermission) {
       const granted = await this.requestPermissions();
-      if (!granted) return false;
+      if (!granted) {
+        console.error('❌ 마이크 권한이 없어 녹음을 시작할 수 없습니다');
+        return false;
+      }
     }
 
     try {
+      console.log('');
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('🎤 오디오 녹음 시작');
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('⏱️  청크 간격:', chunkDuration, 'ms');
+      console.log('🎵 샘플레이트: 16000 Hz');
+      console.log('📻 채널: 모노 (1)');
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('');
+      
       this.onAudioChunkCallback = onAudioChunk;
 
       await Audio.setAudioModeAsync({
@@ -50,119 +85,152 @@ class AudioService {
 
       // 주기적으로 녹음을 시작하고 중지하여 청크 생성
       this.startChunkedRecording(chunkDuration);
+      
+      console.log('✅ 오디오 녹음 시작 성공!');
+      console.log('');
+      
       return true;
     } catch (error) {
-      console.error('Failed to start streaming recording:', error);
+      console.error('');
+      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.error('❌ 오디오 녹음 시작 실패');
+      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.error('Error:', error);
+      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.error('');
       return false;
     }
   }
 
   /**
    * 청크 단위로 녹음 수행
+   * 완전히 재설계: 순차적 녹음 보장
    */
   private async startChunkedRecording(chunkDuration: number) {
     this.isRecording = true;
 
-    const recordChunk = async () => {
-      if (!this.isRecording) return;
+    const processOneChunk = async () => {
+      // 처리 중이면 대기
+      if (this.isProcessingChunk) {
+        console.log('⏳ 이전 청크 처리 중... 대기');
+        return;
+      }
+
+      // 중지되었으면 종료
+      if (!this.isRecording) {
+        return;
+      }
+
+      this.isProcessingChunk = true;
 
       try {
-        // 새로운 녹음 시작
-        const recording = new Audio.Recording();
-        await recording.prepareToRecordAsync({
-          android: {
-            extension: '.m4a',
-            outputFormat: Audio.RECORDING_OPTION_ANDROID_OUTPUT_FORMAT_MPEG_4,
-            audioEncoder: Audio.RECORDING_OPTION_ANDROID_AUDIO_ENCODER_AAC,
-            sampleRate: 16000, // Speech recognition에 최적화된 샘플레이트
-            numberOfChannels: 1, // 모노
-            bitRate: 64000,
-          },
-          ios: {
-            extension: '.m4a',
-            outputFormat: Audio.RECORDING_OPTION_IOS_OUTPUT_FORMAT_MPEG4AAC,
-            audioQuality: Audio.RECORDING_OPTION_IOS_AUDIO_QUALITY_MEDIUM,
-            sampleRate: 16000,
-            numberOfChannels: 1,
-            bitRate: 64000,
-            linearPCMBitDepth: 16,
-            linearPCMIsBigEndian: false,
-            linearPCMIsFloat: false,
-          },
-          web: {
-            mimeType: 'audio/webm',
-            bitsPerSecond: 64000,
-          },
-        });
-
-        await recording.startAsync();
-
-        // chunkDuration 후 녹음 중지 및 전송
-        setTimeout(async () => {
+        // 1. 이전 Recording 객체 완전히 정리
+        if (this.currentRecording) {
           try {
-            await recording.stopAndUnloadAsync();
-            const uri = recording.getURI();
-
-            if (uri && this.onAudioChunkCallback) {
-              // 파일을 Base64로 읽어서 전송
-              const base64Audio = await FileSystem.readAsStringAsync(uri, {
-                encoding: FileSystem.EncodingType.Base64,
-              });
-
-              this.onAudioChunkCallback(base64Audio);
-
-              // 임시 파일 삭제
-              await FileSystem.deleteAsync(uri, { idempotent: true });
-            }
-
-            // 다음 청크 녹음
-            if (this.isRecording) {
-              recordChunk();
-            }
-          } catch (error) {
-            console.error('Error processing audio chunk:', error);
-            if (this.isRecording) {
-              recordChunk();
-            }
+            await this.currentRecording.stopAndUnloadAsync();
+          } catch (e) {
+            // 무시
           }
-        }, chunkDuration);
-      } catch (error) {
-        console.error('Error recording chunk:', error);
-        if (this.isRecording) {
-          // 에러 발생 시 재시도
-          setTimeout(() => recordChunk(), 1000);
+          this.currentRecording = null;
         }
+
+        // 2. 새 Recording 객체 생성
+        this.currentRecording = new Audio.Recording();
+        
+        // 3. 녹음 준비
+        await this.currentRecording.prepareToRecordAsync(
+          Audio.RecordingOptionsPresets.HIGH_QUALITY
+        );
+
+        // 4. 녹음 시작
+        await this.currentRecording.startAsync();
+
+        // 5. chunkDuration 동안 대기
+        await new Promise(resolve => setTimeout(resolve, chunkDuration));
+
+        // 6. 녹음 중지
+        await this.currentRecording.stopAndUnloadAsync();
+        const uri = this.currentRecording.getURI();
+
+        // 7. 오디오 파일 처리
+        if (uri && this.onAudioChunkCallback) {
+          try {
+            const base64Audio = await FileSystem.readAsStringAsync(uri, {
+              encoding: 'base64',
+            });
+
+            console.log('📤 오디오 청크 전송 (크기:', Math.round(base64Audio.length / 1024), 'KB)');
+            this.onAudioChunkCallback(base64Audio);
+
+            // 임시 파일 삭제
+            await FileSystem.deleteAsync(uri, { idempotent: true });
+          } catch (fileError) {
+            console.error('파일 처리 에러:', fileError);
+          }
+        }
+
+        // 8. Recording 객체 정리
+        this.currentRecording = null;
+        
+      } catch (error: any) {
+        console.error('녹음 에러:', error?.message || error);
+        
+        // Recording 객체 정리
+        if (this.currentRecording) {
+          try {
+            await this.currentRecording.stopAndUnloadAsync();
+          } catch (e) {
+            // 무시
+          }
+          this.currentRecording = null;
+        }
+      } finally {
+        this.isProcessingChunk = false;
       }
     };
 
-    recordChunk();
+    // setInterval로 주기적으로 청크 처리
+    // 재귀 호출 대신 interval 사용하여 안정성 확보
+    this.recordingTimer = setInterval(() => {
+      processOneChunk();
+    }, chunkDuration + 300); // 청크 길이 + 300ms 여유
+
+    // 즉시 첫 번째 청크 시작
+    processOneChunk();
   }
 
   async stopRecording(): Promise<void> {
-    this.isRecording = false;
+    console.log('🛑 오디오 녹음 중지 중...');
     
-    if (this.recordingInterval) {
-      clearInterval(this.recordingInterval);
-      this.recordingInterval = null;
+    this.isRecording = false;
+    this.isProcessingChunk = false;
+    
+    // Timer 정리
+    if (this.recordingTimer) {
+      clearInterval(this.recordingTimer);
+      this.recordingTimer = null;
     }
 
-    if (this.recording) {
+    // 현재 Recording 객체 정리
+    if (this.currentRecording) {
       try {
-        await this.recording.stopAndUnloadAsync();
+        await this.currentRecording.stopAndUnloadAsync();
       } catch (error) {
-        console.error('Error stopping recording:', error);
+        // 이미 중지된 경우 무시
       }
-      this.recording = null;
+      this.currentRecording = null;
     }
 
     this.onAudioChunkCallback = undefined;
+    
+    console.log('✅ 오디오 녹음 중지 완료');
   }
 
   getState(): AudioServiceState {
     return {
       isRecording: this.isRecording,
       hasPermission: this.hasPermission,
-      recording: this.recording,
+      recording: this.currentRecording,
     };
   }
 

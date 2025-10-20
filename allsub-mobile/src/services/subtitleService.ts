@@ -3,12 +3,39 @@ import AudioService from './audioService';
 import SystemAudioService from './systemAudioService';
 import FloatingButtonService from './floatingButtonService';
 import WebSocketService, { SubtitleData } from './websocketService';
+import LiveActivityManager from './liveActivityManager';
+import { WS_BASE_URL } from '../config/environment';
+import Diagnostics from '../utils/diagnostics';
 
-// Android 에뮬레이터에서는 10.0.2.2가 호스트 PC의 localhost
-// 실제 디바이스에서는 PC의 IP 주소 사용
-const SERVER_URL = __DEV__ 
-  ? 'http://10.0.2.2:3000'  // 에뮬레이터용
-  : 'http://210.115.229.181:3000'; // 실제 디바이스용
+// WebSocket 서버 URL (환경 설정에서 가져옴)
+const SERVER_URL = WS_BASE_URL;
+
+// 환경 설정 디버깅 로그
+console.log('');
+console.log('╔═══════════════════════════════════════════════╗');
+console.log('║   🔍 SubtitleService 환경 설정 확인          ║');
+console.log('╚═══════════════════════════════════════════════╝');
+console.log('📱 Platform:', Platform.OS);
+console.log('🔧 __DEV__:', __DEV__);
+console.log('🌐 WS_BASE_URL:', WS_BASE_URL);
+console.log('📍 SERVER_URL:', SERVER_URL);
+console.log('');
+console.log('💡 예상 값:');
+console.log('   iOS 시뮬레이터: http://localhost:3000');
+console.log('   Android 에뮬레이터: http://10.0.2.2:3000');
+console.log('');
+if (Platform.OS === 'ios' && SERVER_URL !== 'http://localhost:3000') {
+  console.log('⚠️  경고: iOS 시뮬레이터인데 localhost:3000이 아닙니다!');
+  console.log('   현재 값:', SERVER_URL);
+  console.log('   environment.ts 파일을 확인하세요.');
+}
+if (Platform.OS === 'android' && SERVER_URL !== 'http://10.0.2.2:3000') {
+  console.log('⚠️  경고: Android 에뮬레이터인데 10.0.2.2:3000이 아닙니다!');
+  console.log('   현재 값:', SERVER_URL);
+  console.log('   environment.ts 파일을 확인하세요.');
+}
+console.log('═'.repeat(50));
+console.log('');
 
 export interface SubtitleServiceState {
   isActive: boolean;
@@ -65,6 +92,12 @@ class SubtitleService {
     WebSocketService.onSubtitle((data: SubtitleData) => {
       this.currentSubtitle = data.original;
       this.currentTranslation = data.translated;
+      
+      // Live Activity 업데이트 (iOS 16.1+)
+      if (Platform.OS === 'ios' && LiveActivityManager.isActive()) {
+        LiveActivityManager.update(data.original, data.translated);
+      }
+      
       this.onSubtitleUpdate?.(data.original, data.translated);
       this.updateState();
     });
@@ -92,14 +125,17 @@ class SubtitleService {
     targetLanguage: string = 'en'
   ): Promise<boolean> {
     try {
+      // 환경 정보 로깅
+      Diagnostics.logEnvironmentInfo();
+      
       this.onSubtitleUpdate = onSubtitleUpdate;
       this.onStateUpdate = onStateUpdate;
 
       // 1. WebSocket 서버에 연결
-      console.log('Connecting to WebSocket server...');
       const connected = await WebSocketService.connect(SERVER_URL);
       if (!connected) {
-        console.error('Failed to connect to WebSocket server');
+        Diagnostics.logConnectionFailure(SERVER_URL);
+        Diagnostics.logServiceStartFailure('WebSocket 연결 실패');
         return false;
       }
 
@@ -138,6 +174,7 @@ class SubtitleService {
         const hasAudioPermission = await AudioService.requestPermissions();
         if (!hasAudioPermission) {
           console.error('Audio permission denied');
+          Diagnostics.logServiceStartFailure('마이크 권한 거부됨');
           WebSocketService.stopSubtitle();
           WebSocketService.disconnect();
           return false;
@@ -153,6 +190,7 @@ class SubtitleService {
 
         if (!audioStarted) {
           console.error('Failed to start audio recording');
+          Diagnostics.logServiceStartFailure('오디오 녹음 시작 실패');
           WebSocketService.stopSubtitle();
           WebSocketService.disconnect();
           return false;
@@ -173,7 +211,18 @@ class SubtitleService {
         }
       }
 
-      console.log('Subtitle service started successfully');
+      // iOS: Live Activities 시작 (Dynamic Island & 잠금 화면)
+      if (Platform.OS === 'ios') {
+        const liveActivityStarted = await LiveActivityManager.start();
+        if (!liveActivityStarted) {
+          console.log('Live Activity 시작 실패 (iOS 16.1+ 필요)');
+        }
+      }
+
+      // 성공 정보 표시
+      Diagnostics.logSuccessInfo();
+      
+      console.log('✅ 자막 서비스 시작 완료!');
       return true;
     } catch (error) {
       console.error('Failed to start subtitle service:', error);
@@ -200,6 +249,12 @@ class SubtitleService {
       // Android: 플로팅 버튼 중지
       if (Platform.OS === 'android' && FloatingButtonService.getIsActive()) {
         await FloatingButtonService.stop();
+      }
+
+      // iOS: Live Activities 중지
+      if (Platform.OS === 'ios' && LiveActivityManager.isActive()) {
+        await LiveActivityManager.stop();
+        console.log('🛑 Live Activity 중지됨');
       }
 
       // WebSocket 자막 서비스 중지

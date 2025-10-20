@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, Animated } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Animated, TouchableWithoutFeedback, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SpeechRecognitionResult } from '../services/speechService';
 
@@ -54,53 +54,61 @@ const SubtitleOverlay: React.FC<SubtitleOverlayProps> = ({
   if (!isVisible) return null;
 
   return (
-    <Animated.View 
-      style={[
-        styles.overlay,
-        {
-          opacity: fadeAnim,
-          transform: [{ translateY: slideAnim }],
-        },
-      ]}
-    >
-      <LinearGradient
-        colors={['rgba(0, 0, 0, 0.8)', 'rgba(0, 0, 0, 0.6)']}
-        style={styles.gradientBackground}
+    <TouchableWithoutFeedback onPress={onClose}>
+      <Animated.View 
+        style={[
+          styles.overlay,
+          {
+            opacity: fadeAnim,
+            transform: [{ translateY: slideAnim }],
+          },
+        ]}
       >
-        <View style={styles.subtitleContainer}>
-          <View style={styles.header}>
-            <View style={styles.logoContainer}>
-              <Text style={styles.logo}>🐻</Text>
-              <Text style={styles.appName}>AllSub</Text>
-            </View>
-            <View style={styles.statusIndicator}>
-              <View style={styles.statusDot} />
-              <Text style={styles.statusText}>LIVE</Text>
-            </View>
-          </View>
-          
-          <View style={styles.subtitleBox}>
-            {subtitle && (
-              <>
-                <Text style={styles.subtitleText}>
-                  {subtitle}
-                </Text>
-                {translation && translation !== subtitle && (
-                  <Text style={styles.translationText}>
-                    {translation}
+        <LinearGradient
+          colors={['rgba(0, 0, 0, 0.8)', 'rgba(0, 0, 0, 0.6)']}
+          style={styles.gradientBackground}
+        >
+          <TouchableWithoutFeedback>
+            <View style={styles.subtitleContainer}>
+              <View style={styles.header}>
+                <View style={styles.logoContainer}>
+                  <Image 
+                    source={require('../../assets/bear-logo.png')} 
+                    style={styles.logoImage}
+                    resizeMode="contain"
+                  />
+                  <Text style={styles.appName}>AllSub</Text>
+                </View>
+                <View style={styles.statusIndicator}>
+                  <View style={styles.statusDot} />
+                  <Text style={styles.statusText}>LIVE</Text>
+                </View>
+              </View>
+              
+              <View style={styles.subtitleBox}>
+                {subtitle && (
+                  <>
+                    <Text style={styles.subtitleText}>
+                      {subtitle}
+                    </Text>
+                    {translation && translation !== subtitle && (
+                      <Text style={styles.translationText}>
+                        {translation}
+                      </Text>
+                    )}
+                  </>
+                )}
+                {!subtitle && (
+                  <Text style={styles.placeholderText}>
+                    음성을 인식하고 있습니다...
                   </Text>
                 )}
-              </>
-            )}
-            {!subtitle && (
-              <Text style={styles.placeholderText}>
-                음성을 인식하고 있습니다...
-              </Text>
-            )}
-          </View>
-        </View>
-      </LinearGradient>
-    </Animated.View>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </LinearGradient>
+      </Animated.View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -132,8 +140,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  logo: {
-    fontSize: 20,
+  logoImage: {
+    width: 24,
+    height: 24,
     marginRight: 8,
   },
   appName: {

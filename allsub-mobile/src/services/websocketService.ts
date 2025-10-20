@@ -30,30 +30,72 @@ class WebSocketService {
   connect(serverUrl: string): Promise<boolean> {
     return new Promise((resolve) => {
       try {
+        console.log('');
+        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        console.log('🔌 WebSocket 연결 시도');
+        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        console.log('📍 Server URL:', serverUrl);
+        console.log('⏱️  Timeout: 10초');
+        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        console.log('');
+        
         this.socket = io(serverUrl, {
-          transports: ['websocket'],
+          transports: ['polling', 'websocket'],  // polling 먼저 시도 후 websocket 업그레이드
           reconnection: true,
           reconnectionDelay: 1000,
           reconnectionDelayMax: 5000,
           reconnectionAttempts: this.maxReconnectAttempts,
+          timeout: 10000,
+          forceNew: true,
+          autoConnect: true,
+          path: '/socket.io/',
         });
 
         this.socket.on('connect', () => {
-          console.log('WebSocket connected');
+          console.log('');
+          console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+          console.log('✅ WebSocket 연결 성공!');
+          console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+          console.log('🆔 Socket ID:', this.socket?.id);
+          console.log('📡 Transport:', this.socket?.io.engine.transport.name);
+          console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+          console.log('');
+          
           this.isConnected = true;
           this.reconnectAttempts = 0;
           this.onConnectedCallback?.();
           resolve(true);
         });
 
-        this.socket.on('disconnect', () => {
-          console.log('WebSocket disconnected');
+        this.socket.on('disconnect', (reason) => {
+          console.log('');
+          console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+          console.log('🔌 WebSocket 연결 해제');
+          console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+          console.log('📍 Reason:', reason);
+          console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+          console.log('');
+          
           this.isConnected = false;
           this.onDisconnectedCallback?.();
         });
 
         this.socket.on('connect_error', (error) => {
-          console.error('WebSocket connection error:', error);
+          console.log('');
+          console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+          console.log('❌ WebSocket 연결 에러');
+          console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+          console.log('📍 Server URL:', serverUrl);
+          console.log('🔢 시도 횟수:', this.reconnectAttempts + 1, '/', this.maxReconnectAttempts);
+          console.log('❗ Error:', error.message);
+          console.log('');
+          console.log('💡 해결 방법:');
+          console.log('   1. 백엔드 서버 실행 확인: lsof -i :3000');
+          console.log('   2. URL 확인:', serverUrl);
+          console.log('   3. 방화벽 확인');
+          console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+          console.log('');
+          
           this.reconnectAttempts++;
           if (this.reconnectAttempts >= this.maxReconnectAttempts) {
             this.onErrorCallback?.('연결 실패: 서버에 접속할 수 없습니다.');
@@ -63,7 +105,16 @@ class WebSocketService {
 
         // 자막 데이터 수신
         this.socket.on('subtitle-text', (data: SubtitleData) => {
-          console.log('Received subtitle:', data);
+          console.log('');
+          console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+          console.log('📬 자막 수신!');
+          console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+          console.log('🇰🇷 원본:', data.original);
+          console.log('🇺🇸 번역:', data.translated);
+          console.log('⏰ 타임스탬프:', data.timestamp);
+          console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+          console.log('');
+          
           this.onSubtitleCallback?.(data);
         });
 
@@ -141,10 +192,16 @@ class WebSocketService {
    */
   sendAudioChunk(audioData: string | Buffer, encoding: string = 'base64') {
     if (!this.socket || !this.isConnected) {
-      console.error('Socket not connected');
+      console.error('❌ 오디오 전송 실패: WebSocket 연결되지 않음');
       return;
     }
 
+    const dataSize = typeof audioData === 'string' 
+      ? Math.round(audioData.length / 1024) 
+      : Math.round(audioData.length / 1024);
+    
+    console.log('📨 오디오 청크 전송 중... (', dataSize, 'KB)');
+    
     this.socket.emit('audio-chunk', {
       audio: audioData,
       encoding,
