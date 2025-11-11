@@ -1,22 +1,60 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Animated, Image, Modal, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated, Image, Modal, Platform, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import AnimatedToggle from './AnimatedToggle';
 import SubtitleOverlay from './SubtitleOverlay';
 import FloatingButton from './FloatingButton';
 import BackgroundNotice from './BackgroundNotice';
 import DebugConfig from './DebugConfig';
+import TranslationModeModal from './TranslationModeModal';
 import { useAppStore } from '../store/useAppStore';
 import SubtitleService, { SubtitleServiceState } from '../services/subtitleService';
+import WebSocketService from '../services/websocketService';
 
 const HomeScreen: React.FC = () => {
   console.log('HomeScreen: Component rendering');
   
-  const { isCaptionEnabled, toggleCaption } = useAppStore();
+  const { isCaptionEnabled, toggleCaption, translationDirection, setTranslationDirection, microphoneMode, setMicrophoneMode, isPushToTalkActive, setIsPushToTalkActive } = useAppStore();
+  
+  // 번역 방향 변경 핸들러
+  const handleTranslationDirectionChange = (direction: 'ko-to-en' | 'en-to-ko') => {
+    setTranslationDirection(direction);
+    
+    // WebSocket을 통해 백엔드에 번역 방향 전송
+    if (isCaptionEnabled) {
+      WebSocketService.setTranslationDirection(direction);
+    }
+  };
+
+  // 마이크 모드 변경 핸들러
+  const handleMicrophoneModeChange = (mode: 'auto' | 'push-to-talk') => {
+    setMicrophoneMode(mode);
+    
+    // WebSocket을 통해 백엔드에 마이크 모드 전송
+    if (isCaptionEnabled) {
+      WebSocketService.setMicrophoneMode(mode);
+    }
+  };
+
+  // Push-to-Talk 상태 변경 핸들러
+  const handlePushToTalkChange = (active: boolean) => {
+    setIsPushToTalkActive(active);
+    
+    // WebSocket을 통해 백엔드에 Push-to-Talk 상태 전송
+    if (isCaptionEnabled) {
+      WebSocketService.setPushToTalkActive(active);
+    }
+  };
+  
+  // 화면 크기 감지
+  const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+  const isSmallScreen = screenWidth < 375 || screenHeight < 667; // iPhone SE 크기 기준
   const [showStatusText, setShowStatusText] = useState(false);
   const [statusMessage, setStatusMessage] = useState<'on' | 'off'>('off'); // 토글 후 상태를 저장
   const [showMenu, setShowMenu] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showTranslationModal, setShowTranslationModal] = useState(false);
+  const [showDebugInfo, setShowDebugInfo] = useState(false);
   const [subtitleServiceState, setSubtitleServiceState] = useState<SubtitleServiceState>({
     isActive: false,
     currentSubtitle: '',
@@ -95,14 +133,26 @@ const HomeScreen: React.FC = () => {
 
   // 자막 서비스 상태 관리
   useEffect(() => {
-    console.log('HomeScreen: isCaptionEnabled changed to', isCaptionEnabled);
+    console.log('------------------------------');
+    console.log('useEffect 실행 (isCaptionEnabled 변경)');
+    console.log('------------------------------');
+    console.log('isCaptionEnabled:', isCaptionEnabled ? 'ON' : 'OFF');
+    console.log('실행 시간:', new Date().toLocaleString('ko-KR'));
+    console.log('');
     
     const handleSubtitleUpdate = (subtitle: string, translation: string) => {
+      console.log('HomeScreen: 자막 수신 -', subtitle, '/', translation);
       setSubtitleServiceState(prev => ({ 
         ...prev, 
         currentSubtitle: subtitle,
         currentTranslation: translation 
       }));
+      
+      // 첫 자막이 수신되면 자동으로 오버레이 열기
+      if (!showSubtitleOverlay && subtitle && subtitle.trim()) {
+        console.log('HomeScreen: 첫 자막 수신 - 오버레이 자동 열기');
+        setShowSubtitleOverlay(true);
+      }
     };
 
     const handleStateUpdate = (state: SubtitleServiceState) => {
@@ -110,24 +160,39 @@ const HomeScreen: React.FC = () => {
     };
 
     if (isCaptionEnabled) {
-      console.log('HomeScreen: Starting subtitle service');
+      console.log('isCaptionEnabled가 ON이므로 SubtitleService.start() 호출');
+      console.log('   User ID: demo-user-1');
+      console.log('   Translation Direction:', translationDirection);
+      console.log('   Microphone Mode:', microphoneMode);
+      console.log('');
+      
       // 자막 서비스 시작 (한국어 음성 인식 -> 영어 번역)
       SubtitleService.start(
         handleSubtitleUpdate, 
         handleStateUpdate,
         'demo-user-1',
         'ko-KR', // 소스 언어
-        'en' // 타겟 언어 (영어)
+        'en', // 타겟 언어 (영어)
+        translationDirection, // 번역 방향
+        microphoneMode // 마이크 모드
       ).then(success => {
-        console.log('HomeScreen: Subtitle service start result:', success);
+        console.log('------------------------------');
+        console.log('SubtitleService.start() 결과');
+        console.log('------------------------------');
+        console.log('성공:', success ? 'YES' : 'NO');
+        console.log('==============================');
+        console.log('');
+        
         if (!success) {
           console.error('HomeScreen: Failed to start subtitle service');
         }
       }).catch(error => {
         console.error('HomeScreen: Error starting subtitle service:', error);
+        console.error('   Error Message:', error?.message);
+        console.error('   Error Stack:', error?.stack);
       });
     } else {
-      console.log('HomeScreen: Stopping subtitle service');
+      console.log('isCaptionEnabled가 OFF이므로 SubtitleService.stop() 호출');
       // 자막 서비스 중지
       SubtitleService.stop();
       setShowSubtitleOverlay(false);
@@ -135,13 +200,15 @@ const HomeScreen: React.FC = () => {
 
     return () => {
       // 컴포넌트 언마운트 시 정리
-      console.log('HomeScreen: Cleanup');
+      console.log('🧹 HomeScreen: Cleanup - SubtitleService.stop()');
       SubtitleService.stop();
     };
-  }, [isCaptionEnabled]);
+  }, [isCaptionEnabled, translationDirection, microphoneMode]);
 
   // 플로팅 버튼 클릭 핸들러
   const handleFloatingButtonPress = () => {
+    console.log('HomeScreen: 플로팅 버튼 클릭 - 현재 상태:', showSubtitleOverlay, '-> 변경:', !showSubtitleOverlay);
+    console.log('HomeScreen: 현재 자막 상태 -', subtitleServiceState.currentSubtitle, '/', subtitleServiceState.currentTranslation);
     setShowSubtitleOverlay(!showSubtitleOverlay);
   };
 
@@ -265,25 +332,37 @@ const HomeScreen: React.FC = () => {
         <View style={styles.mainContent}>
           <AnimatedToggle isEnabled={isCaptionEnabled} onToggle={handleToggle} />
           
-          {/* iOS Live Activities 안내 */}
-          {Platform.OS === 'ios' && (
-            <View style={styles.liveActivityNotice}>
-              <Text style={styles.liveActivityIcon}>
-                {isCaptionEnabled ? '🏝️' : '⏸️'}
-              </Text>
-              <View style={styles.liveActivityTextContainer}>
-                <Text style={styles.liveActivityTitle}>
-                  {isCaptionEnabled ? 'Live Activities 활성화됨' : 'Live Activities 비활성화됨'}
-                </Text>
-                <Text style={styles.liveActivityDescription}>
-                  {isCaptionEnabled 
-                    ? 'YouTube Premium 백그라운드 재생 시\nDynamic Island와 잠금 화면에서 자막을 확인하세요!'
-                    : '자막 서비스를 켜면 Live Activities가\nDynamic Island와 잠금 화면에 표시됩니다.'
-                  }
-                </Text>
-              </View>
-            </View>
-          )}
+               {/* iOS Live Activities 안내 */}
+               {Platform.OS === 'ios' && (
+                 <View style={[
+                   styles.liveActivityNotice,
+                   isSmallScreen && styles.liveActivityNoticeSmall
+                 ]}>
+                   <Text style={[
+                     styles.liveActivityIcon,
+                     isSmallScreen && styles.liveActivityIconSmall
+                   ]}>
+                     {isCaptionEnabled ? '🏝️' : '⏸️'}
+                   </Text>
+                   <View style={styles.liveActivityTextContainer}>
+                     <Text style={[
+                       styles.liveActivityTitle,
+                       isSmallScreen && styles.liveActivityTitleSmall
+                     ]}>
+                       {isCaptionEnabled ? 'Live Activities 활성화됨' : 'Live Activities 비활성화됨'}
+                     </Text>
+                     <Text style={[
+                       styles.liveActivityDescription,
+                       isSmallScreen && styles.liveActivityDescriptionSmall
+                     ]}>
+                       {isCaptionEnabled
+                         ? 'YouTube Premium 백그라운드 재생 시\nDynamic Island와 잠금 화면에서 자막을 확인하세요!'
+                         : '자막 서비스를 켜면 Live Activities가\nDynamic Island와 잠금 화면에 표시됩니다.'
+                       }
+                     </Text>
+                   </View>
+                 </View>
+               )}
 
           {/* Android 시스템 오버레이 안내 */}
           {Platform.OS === 'android' && (
@@ -346,11 +425,10 @@ const HomeScreen: React.FC = () => {
               style={styles.menuItem}
               onPress={() => {
                 setShowMenu(false);
-                // TODO: Support 기능 구현
-                console.log('Support pressed');
+                setShowDebugInfo(true);
               }}
             >
-              <Text style={styles.menuItemText}>Support</Text>
+              <Text style={styles.menuItemText}>디버그</Text>
             </TouchableOpacity>
             
             <View style={styles.menuDivider} />
@@ -359,10 +437,10 @@ const HomeScreen: React.FC = () => {
               style={styles.menuItem}
               onPress={() => {
                 setShowMenu(false);
-                setShowShareModal(true);
+                setShowTranslationModal(true);
               }}
             >
-              <Text style={styles.menuItemText}>Share</Text>
+              <Text style={styles.menuItemText}>번역 모드</Text>
             </TouchableOpacity>
           </View>
         </TouchableOpacity>
@@ -430,6 +508,14 @@ const HomeScreen: React.FC = () => {
         </TouchableOpacity>
       </Modal>
 
+      {/* Translation Mode Modal */}
+      <TranslationModeModal
+        isVisible={showTranslationModal}
+        onClose={() => setShowTranslationModal(false)}
+        translationDirection={translationDirection}
+        onDirectionChange={handleTranslationDirectionChange}
+      />
+
       {/* Floating Button */}
       <FloatingButton
         isVisible={isCaptionEnabled}
@@ -443,10 +529,15 @@ const HomeScreen: React.FC = () => {
         subtitle={subtitleServiceState.currentSubtitle}
         translation={subtitleServiceState.currentTranslation}
         onClose={() => setShowSubtitleOverlay(false)}
+        microphoneMode={microphoneMode}
+        onMicrophoneModeChange={handleMicrophoneModeChange}
+        isPushToTalkActive={isPushToTalkActive}
+        onPushToTalkChange={handlePushToTalkChange}
+        translationDirection={translationDirection}
       />
 
-      {/* Debug Config (개발 모드에서만 표시) */}
-      <DebugConfig />
+      {/* Debug Config (디버그 메뉴에서 선택 시 표시) */}
+      {showDebugInfo && <DebugConfig onClose={() => setShowDebugInfo(false)} />}
     </View>
   );
 };
@@ -571,6 +662,11 @@ const styles = StyleSheet.create({
   headerLeft: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
   },
   bearIcon: {
     width: 48,
@@ -728,32 +824,56 @@ const styles = StyleSheet.create({
   },
   liveActivityNotice: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start', // center에서 flex-start로 변경
     backgroundColor: 'rgba(139, 92, 246, 0.15)',
     borderRadius: 16,
-    padding: 16,
+    padding: 12, // 16에서 12로 줄임
     marginTop: 100,
-    marginHorizontal: 20,
+    marginHorizontal: 16, // 20에서 16으로 줄임
     borderWidth: 1,
     borderColor: 'rgba(139, 92, 246, 0.3)',
+    minHeight: 80, // 최소 높이 보장
+    maxWidth: '100%', // 최대 너비 제한
   },
   liveActivityIcon: {
-    fontSize: 32,
-    marginRight: 12,
+    fontSize: 28, // 32에서 28로 줄임
+    marginRight: 10, // 12에서 10으로 줄임
+    marginTop: 2, // 아이콘을 약간 아래로 이동
   },
   liveActivityTextContainer: {
     flex: 1,
+    minWidth: 0, // flex item이 축소될 수 있도록 함
   },
   liveActivityTitle: {
-    fontSize: 16,
+    fontSize: 14, // 16에서 14로 줄임
     fontWeight: '600',
     color: 'white',
-    marginBottom: 4,
+    marginBottom: 3, // 4에서 3으로 줄임
+    flexWrap: 'wrap', // 텍스트 줄바꿈 허용
   },
   liveActivityDescription: {
-    fontSize: 12,
+    fontSize: 11, // 12에서 11로 줄임
     color: 'rgba(255, 255, 255, 0.8)',
-    lineHeight: 18,
+    lineHeight: 16, // 18에서 16으로 줄임
+    flexWrap: 'wrap', // 텍스트 줄바꿈 허용
+  },
+  // 작은 화면을 위한 추가 스타일
+  liveActivityNoticeSmall: {
+    padding: 10, // 더 작은 패딩
+    marginHorizontal: 12, // 더 작은 마진
+    minHeight: 70, // 더 작은 최소 높이
+  },
+  liveActivityIconSmall: {
+    fontSize: 24, // 더 작은 아이콘
+    marginRight: 8, // 더 작은 마진
+  },
+  liveActivityTitleSmall: {
+    fontSize: 13, // 더 작은 제목
+    marginBottom: 2, // 더 작은 마진
+  },
+  liveActivityDescriptionSmall: {
+    fontSize: 10, // 더 작은 설명
+    lineHeight: 14, // 더 작은 줄 높이
   },
 });
 

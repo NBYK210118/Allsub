@@ -18,10 +18,10 @@ export class WhisperService {
           apiKey: process.env.OPENAI_API_KEY,
         });
         this.useSimulation = false;
-        this.logger.log('✅ OpenAI Whisper API initialized');
+        this.logger.log('OpenAI Whisper API initialized');
       } else {
-        this.logger.warn('⚠️  OPENAI_API_KEY not found. Using simulation mode.');
-        this.logger.warn('💡 실제 음성 인식을 사용하려면:');
+        this.logger.warn('OPENAI_API_KEY not found. Using simulation mode.');
+        this.logger.warn('실제 음성 인식을 사용하려면:');
         this.logger.warn('   1. OpenAI API 키 발급: https://platform.openai.com/api-keys');
         this.logger.warn('   2. 환경 변수 설정: export OPENAI_API_KEY="sk-..."');
         this.logger.warn('   3. 서버 재시작');
@@ -38,7 +38,8 @@ export class WhisperService {
    */
   async transcribeAudio(audioBuffer: Buffer, languageCode: string = 'ko'): Promise<string> {
     if (this.useSimulation) {
-      return this.simulateTranscription(audioBuffer);
+      this.logger.warn('시뮬레이션 모드: 실제 음성 인식을 사용하려면 OPENAI_API_KEY를 설정하세요');
+      return ''; // 시뮬레이션 샘플 텍스트 제거
     }
 
     try {
@@ -51,7 +52,7 @@ export class WhisperService {
       const tempFilePath = path.join(tempDir, `audio_${randomUUID()}.m4a`);
       fs.writeFileSync(tempFilePath, audioBuffer);
 
-      this.logger.log(`🎤 Whisper API 호출 중... (언어: ${languageCode})`);
+      this.logger.log(`Whisper API 호출 중... (언어: ${languageCode})`);
 
       // Whisper API 호출
       const transcription = await this.openai!.audio.transcriptions.create({
@@ -67,17 +68,18 @@ export class WhisperService {
       const text = transcription.trim();
       
       if (text) {
-        this.logger.log(`✅ 음성 인식 완료: ${text.substring(0, 50)}...`);
+        this.logger.log(`음성 인식 완료: ${text.substring(0, 50)}...`);
       } else {
-        this.logger.warn('⚠️  음성 인식 결과 없음 (소리가 너무 작거나 없음)');
+        this.logger.warn('음성 인식 결과 없음 (소리가 너무 작거나 없음)');
       }
 
       return text;
     } catch (error: any) {
-      this.logger.error('❌ Whisper API 에러:', error?.message);
+      this.logger.error('Whisper API 에러:', error?.message);
+      this.logger.error('상세 에러:', error);
       
-      // 에러 발생 시 시뮬레이션으로 폴백
-      return this.simulateTranscription(audioBuffer);
+      // 에러 발생 시 빈 문자열 반환 (시뮬레이션 사용 안 함)
+      return '';
     }
   }
 
@@ -100,7 +102,7 @@ export class WhisperService {
     const index = audioBuffer.length % sampleTexts.length;
     const text = sampleTexts[index];
     
-    this.logger.log(`🎭 시뮬레이션 모드: ${text}`);
+    this.logger.log(`시뮬레이션 모드: ${text}`);
     
     return text;
   }

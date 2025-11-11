@@ -17,30 +17,30 @@ class AudioService {
   async requestPermissions(): Promise<boolean> {
     try {
       console.log('');
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      console.log('🎙️  마이크 권한 요청');
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('------------------------------');
+      console.log('마이크 권한 요청');
+      console.log('------------------------------');
       
       const { status } = await Audio.requestPermissionsAsync();
       this.hasPermission = status === 'granted';
       
       if (this.hasPermission) {
-        console.log('✅ 마이크 권한 허용됨!');
+        console.log('마이크 권한 허용됨');
       } else {
-        console.log('❌ 마이크 권한 거부됨!');
-        console.log('📱 설정 → AllSub → 마이크 권한 확인 필요');
+        console.log('마이크 권한 거부됨');
+        console.log('설정 > AllSub > 마이크 권한 확인 필요');
       }
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('------------------------------');
       console.log('');
       
       return this.hasPermission;
     } catch (error) {
       console.error('');
-      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      console.error('❌ 마이크 권한 요청 실패');
-      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.error('------------------------------');
+      console.error('마이크 권한 요청 실패');
+      console.error('------------------------------');
       console.error('Error:', error);
-      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.error('------------------------------');
       console.error('');
       return false;
     }
@@ -57,20 +57,20 @@ class AudioService {
     if (!this.hasPermission) {
       const granted = await this.requestPermissions();
       if (!granted) {
-        console.error('❌ 마이크 권한이 없어 녹음을 시작할 수 없습니다');
+        console.error('마이크 권한이 없어 녹음을 시작할 수 없습니다');
         return false;
       }
     }
 
     try {
       console.log('');
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      console.log('🎤 오디오 녹음 시작');
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      console.log('⏱️  청크 간격:', chunkDuration, 'ms');
-      console.log('🎵 샘플레이트: 16000 Hz');
-      console.log('📻 채널: 모노 (1)');
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('------------------------------');
+      console.log('오디오 녹음 시작');
+      console.log('------------------------------');
+      console.log('청크 간격:', chunkDuration, 'ms');
+      console.log('샘플레이트: 16000 Hz');
+      console.log('채널: 모노 (1)');
+      console.log('------------------------------');
       console.log('');
       
       this.onAudioChunkCallback = onAudioChunk;
@@ -85,17 +85,17 @@ class AudioService {
       // 주기적으로 녹음을 시작하고 중지하여 청크 생성
       this.startChunkedRecording(chunkDuration);
       
-      console.log('✅ 오디오 녹음 시작 성공!');
+      console.log('오디오 녹음 시작 성공');
       console.log('');
       
       return true;
     } catch (error) {
       console.error('');
-      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      console.error('❌ 오디오 녹음 시작 실패');
-      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.error('------------------------------');
+      console.error('오디오 녹음 시작 실패');
+      console.error('------------------------------');
       console.error('Error:', error);
-      console.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.error('------------------------------');
       console.error('');
       return false;
     }
@@ -123,7 +123,7 @@ class AudioService {
     const processOneChunk = async () => {
       // 처리 중이면 대기
       if (this.isProcessingChunk) {
-        console.log('⏳ 이전 청크 처리 중... 대기');
+        console.log('이전 청크 처리 중... 대기');
         return;
       }
 
@@ -159,9 +159,15 @@ class AudioService {
         // 5. chunkDuration 동안 대기
         await new Promise(resolve => setTimeout(resolve, chunkDuration));
 
-        // 6. 녹음 중지
-        await this.currentRecording.stopAndUnloadAsync();
-        const uri = this.currentRecording.getURI();
+        // 6. 녹음 중지 (null 체크)
+        if (!this.currentRecording) {
+          console.warn('Recording object is null - 녹음 중 객체가 정리되었습니다');
+          return; // 다음 청크로 계속
+        }
+        
+        const recordingToStop = this.currentRecording;
+        await recordingToStop.stopAndUnloadAsync();
+        const uri = recordingToStop.getURI();
 
         // 7. 오디오 파일 처리
         if (uri && this.onAudioChunkCallback) {
@@ -183,7 +189,7 @@ class AudioService {
             // ArrayBuffer를 base64로 변환
             const base64Audio = this.arrayBufferToBase64(arrayBuffer);
 
-            console.log('📤 오디오 청크 전송 (크기:', Math.round(base64Audio.length / 1024), 'KB)');
+            console.log('오디오 청크 전송 (크기:', Math.round(base64Audio.length / 1024), 'KB)');
             this.onAudioChunkCallback(base64Audio);
 
             // Note: React Native의 file:// URI는 자동으로 정리됨
@@ -223,7 +229,7 @@ class AudioService {
   }
 
   async stopRecording(): Promise<void> {
-    console.log('🛑 오디오 녹음 중지 중...');
+    console.log('오디오 녹음 중지 중...');
     
     this.isRecording = false;
     this.isProcessingChunk = false;
@@ -246,7 +252,7 @@ class AudioService {
 
     this.onAudioChunkCallback = undefined;
     
-    console.log('✅ 오디오 녹음 중지 완료');
+    console.log('오디오 녹음 중지 완료');
   }
 
   getState(): AudioServiceState {

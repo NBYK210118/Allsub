@@ -5,18 +5,30 @@ import { Platform } from 'react-native';
  * 플랫폼별로 다른 API 엔드포인트를 사용합니다.
  */
 
+// 현재 네트워크 환경에 맞는 IP 주소들
+const NETWORK_IPS = {
+  // 현재 개발 PC IP - ifconfig로 확인 후 업데이트하세요!
+  current: '10.50.215.125', // ← 현재 WiFi IP (업데이트됨)
+  // 이전 IP들 (백업용)
+  previous: '192.168.0.78',
+  // 로컬호스트 (명시적 IP 사용)
+  localhost: '127.0.0.1', // localhost 대신 127.0.0.1 사용 (React Native 호환)
+  // Android 에뮬레이터 특별 IP
+  androidEmulator: '10.0.2.2',
+};
+
 // iOS 시뮬레이터 설정
 const IOS_SIMULATOR_CONFIG = {
-  apiBaseUrl: 'http://localhost:3000',
-  wsBaseUrl: 'http://localhost:3000',
-  // iOS 시뮬레이터에서는 localhost가 맥의 로컬 서버를 가리킴
+  apiBaseUrl: `http://${NETWORK_IPS.localhost}:3000`, // localhost 사용 (네트워크 변경 무관)
+  wsBaseUrl: `http://${NETWORK_IPS.localhost}:3000`,
+  // iOS 시뮬레이터는 호스트의 localhost에 직접 접근 가능
 };
 
 // Android 에뮬레이터 설정
 const ANDROID_EMULATOR_CONFIG = {
-  apiBaseUrl: 'http://10.0.2.2:3000',
-  wsBaseUrl: 'http://10.0.2.2:3000',
-  // Android 에뮬레이터에서 10.0.2.2는 호스트 PC의 localhost를 가리킴
+  apiBaseUrl: `http://${NETWORK_IPS.localhost}:3000`, // 127.0.0.1 사용 (adb reverse 필요)
+  wsBaseUrl: `http://${NETWORK_IPS.localhost}:3000`,
+  // Android 에뮬레이터: ./setup-android-dev.sh 실행 또는 adb reverse tcp:3000 tcp:3000
 };
 
 // 실제 디바이스 설정 (프로덕션)
@@ -28,9 +40,9 @@ const PRODUCTION_CONFIG = {
 
 // 개발 환경에서 실제 디바이스 테스트용 (WiFi 같은 네트워크에 있을 때)
 const DEV_DEVICE_CONFIG = {
-  apiBaseUrl: 'http://192.168.0.100:3000', // 여기에 개발 PC의 실제 IP를 입력
-  wsBaseUrl: 'http://192.168.0.100:3000',
-  // 개발 PC의 WiFi IP 주소 (같은 네트워크에 있어야 함)
+  apiBaseUrl: `http://${NETWORK_IPS.current}:3000`, // 현재 개발 PC의 실제 IP
+  wsBaseUrl: `http://${NETWORK_IPS.current}:3000`,
+  // 개발 PC의 현재 IP 주소 (같은 네트워크에 있어야 함)
 };
 
 /**
@@ -38,43 +50,32 @@ const DEV_DEVICE_CONFIG = {
  */
 function getEnvironmentConfig() {
   console.log('');
-  console.log('╔═══════════════════════════════════════════════╗');
-  console.log('║   🔧 Environment 설정 결정 중...             ║');
-  console.log('╚═══════════════════════════════════════════════╝');
-  console.log('📱 Platform.OS:', Platform.OS);
-  console.log('🔧 __DEV__:', __DEV__);
+  console.log('------------------------------');
+  console.log('Environment 설정 결정 중');
+  console.log('------------------------------');
+  console.log('Platform.OS:', Platform.OS);
+  console.log('__DEV__:', __DEV__);
   console.log('');
-  
+
   // 프로덕션 환경
   if (!__DEV__) {
-    console.log('✅ 선택: PRODUCTION config');
-    console.log('   → API:', PRODUCTION_CONFIG.apiBaseUrl);
-    console.log('   → WS:', PRODUCTION_CONFIG.wsBaseUrl);
+    console.log('선택: PRODUCTION config');
+    console.log('   API:', PRODUCTION_CONFIG.apiBaseUrl);
+    console.log('   WS:', PRODUCTION_CONFIG.wsBaseUrl);
     console.log('');
     return PRODUCTION_CONFIG;
   }
 
-  // 개발 환경
-  if (Platform.OS === 'ios') {
-    console.log('✅ 선택: iOS SIMULATOR config');
-    console.log('   → API:', IOS_SIMULATOR_CONFIG.apiBaseUrl);
-    console.log('   → WS:', IOS_SIMULATOR_CONFIG.wsBaseUrl);
-    console.log('');
-    return IOS_SIMULATOR_CONFIG;
-  } else if (Platform.OS === 'android') {
-    console.log('✅ 선택: ANDROID EMULATOR config');
-    console.log('   → API:', ANDROID_EMULATOR_CONFIG.apiBaseUrl);
-    console.log('   → WS:', ANDROID_EMULATOR_CONFIG.wsBaseUrl);
-    console.log('');
-    return ANDROID_EMULATOR_CONFIG;
-  }
-
-  // 기본값 (web 등)
-  console.log('✅ 선택: DEFAULT config (iOS)');
-  console.log('   → API:', IOS_SIMULATOR_CONFIG.apiBaseUrl);
-  console.log('   → WS:', IOS_SIMULATOR_CONFIG.wsBaseUrl);
+  // 개발 환경 - Expo Go는 실제 디바이스처럼 실제 IP 필요
+  // Expo Go에서는 localhost/127.0.0.1이 작동하지 않음!
+  console.log('선택: DEV DEVICE config (Expo Go 호환)');
+  console.log('   API:', DEV_DEVICE_CONFIG.apiBaseUrl);
+  console.log('   WS:', DEV_DEVICE_CONFIG.wsBaseUrl);
   console.log('');
-  return IOS_SIMULATOR_CONFIG;
+  console.log('Expo Go는 실제 네트워크 IP가 필요합니다');
+  console.log('   네트워크가 변경되면 NETWORK_IPS.current를 업데이트하세요');
+  console.log('');
+  return DEV_DEVICE_CONFIG;
 }
 
 // 환경 설정 내보내기
@@ -120,12 +121,18 @@ export function getConfigForPlatform(
 }
 
 // 현재 사용 중인 설정 정보 로깅
-console.log('='.repeat(50));
-console.log('📋 Environment Configuration');
-console.log('='.repeat(50));
+console.log('');
+console.log('------------------------------');
+console.log('Environment Configuration');
+console.log('------------------------------');
 console.log(`Platform: ${Platform.OS}`);
 console.log(`Environment: ${__DEV__ ? 'Development' : 'Production'}`);
+console.log(`Current Network IP: ${NETWORK_IPS.current}`);
 console.log(`API Base URL: ${API_BASE_URL}`);
 console.log(`WebSocket URL: ${WS_BASE_URL}`);
-console.log('='.repeat(50));
+console.log(`설정 로드 시간: ${new Date().toLocaleString('ko-KR')}`);
+console.log('------------------------------');
+console.log('네트워크 환경이 변경된 경우 NETWORK_IPS.current를 업데이트하세요!');
+console.log('------------------------------');
+console.log('');
 

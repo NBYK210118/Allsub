@@ -25,7 +25,7 @@ class LiveActivityManager {
 
   private initialize() {
     if (Platform.OS !== 'ios') {
-      console.log('📱 Live Activities는 iOS에서만 지원됩니다');
+      console.log('Live Activities는 iOS에서만 지원됩니다');
       return;
     }
 
@@ -35,14 +35,14 @@ class LiveActivityManager {
       
       if (this.LiveActivitiesModule) {
         this.isSupported = true;
-        console.log('✅ Live Activities 네이티브 모듈 발견!');
+        console.log('Live Activities 네이티브 모듈 발견');
       } else {
-        console.log('ℹ️  Live Activities 네이티브 모듈 없음');
-        console.log('📝 Widget Extension을 추가하면 사용 가능합니다');
-        console.log('📄 가이드: QUICK_START_LIVE_ACTIVITIES.md');
+        console.log('Live Activities 네이티브 모듈 없음');
+        console.log('Widget Extension을 추가하면 사용 가능합니다');
+        console.log('가이드: QUICK_START_LIVE_ACTIVITIES.md');
       }
     } catch (error) {
-      console.log('ℹ️  Live Activities 초기화:', error);
+      console.log('Live Activities 초기화:', error);
       this.isSupported = false;
     }
   }
@@ -57,21 +57,21 @@ class LiveActivityManager {
     }
 
     if (this.activityId) {
-      console.log('✅ Live Activity가 이미 실행 중입니다');
+      console.log('Live Activity가 이미 실행 중입니다');
       return true;
     }
 
     // 네이티브 모듈이 없으면 안내 메시지만 표시
     if (!this.LiveActivitiesModule) {
       console.log('');
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      console.log('🏝️  Live Activities 사용 안내');
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('------------------------------');
+      console.log('Live Activities 사용 안내');
+      console.log('------------------------------');
       console.log('');
-      console.log('✨ YouTube Premium 백그라운드 재생 중');
-      console.log('   Dynamic Island와 잠금 화면에서 자막을 확인하고 싶으신가요?');
+      console.log('YouTube Premium 백그라운드 재생 중');
+      console.log('Dynamic Island와 잠금 화면에서 자막을 확인하고 싶으신가요?');
       console.log('');
-      console.log('📝 다음 단계:');
+      console.log('다음 단계:');
       console.log('   1. Xcode 열기:');
       console.log('      open ios/allsubmobile.xcworkspace');
       console.log('');
@@ -81,7 +81,7 @@ class LiveActivityManager {
       console.log('   3. 상세 가이드:');
       console.log('      QUICK_START_LIVE_ACTIVITIES.md 참고');
       console.log('');
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('------------------------------');
       console.log('');
       
       // 시뮬레이션을 위해 ID 생성
@@ -107,22 +107,22 @@ class LiveActivityManager {
       );
       
       console.log('');
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
-      console.log('✅ Live Activity 시작됨!');
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('------------------------------');
+      console.log('Live Activity 시작됨');
+      console.log('------------------------------');
       console.log('');
-      console.log('🏝️  Dynamic Island에서 자막 확인');
-      console.log('🔒 잠금 화면에서도 자막 확인');
+      console.log('Dynamic Island에서 자막 확인');
+      console.log('잠금 화면에서도 자막 확인');
       console.log('');
-      console.log('💡 YouTube Premium 백그라운드 재생 시');
-      console.log('   계속해서 자막을 볼 수 있습니다!');
+      console.log('YouTube Premium 백그라운드 재생 시');
+      console.log('   계속해서 자막을 볼 수 있습니다.');
       console.log('');
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('------------------------------');
       console.log('');
       
       return true;
     } catch (error) {
-      console.error('❌ Live Activity 시작 실패:', error);
+      console.error('Live Activity 시작 실패:', error);
       return false;
     }
   }
@@ -142,7 +142,7 @@ class LiveActivityManager {
 
     // 네이티브 모듈이 없으면 콘솔 로그만
     if (!this.LiveActivitiesModule) {
-      console.log('🏝️ [Live Activity] 🇰🇷', originalSubtitle.substring(0, 30), '→ 🇺🇸', translatedSubtitle.substring(0, 30));
+      console.log('[Live Activity] (모듈 없음)', originalSubtitle.substring(0, 30), '->', translatedSubtitle.substring(0, 30));
       return;
     }
 
@@ -154,9 +154,9 @@ class LiveActivityManager {
       };
 
       await this.LiveActivitiesModule.updateActivity(this.activityId, state);
-      console.log('🔄 [Live Activity] 업데이트:', originalSubtitle.substring(0, 30));
+      console.log('[Live Activity] 업데이트:', originalSubtitle.substring(0, 30));
     } catch (error) {
-      console.error('❌ Live Activity 업데이트 실패:', error);
+      console.error('Live Activity 업데이트 실패:', error);
       this.activityId = null;
     }
   }
@@ -171,17 +171,17 @@ class LiveActivityManager {
 
     // 네이티브 모듈이 없으면 ID만 초기화
     if (!this.LiveActivitiesModule) {
-      console.log('🛑 Live Activity 중지 (시뮬레이션)');
+      console.log('Live Activity 중지 (시뮬레이션)');
       this.activityId = null;
       return;
     }
 
     try {
       await this.LiveActivitiesModule.endActivity(this.activityId);
-      console.log('🛑 Live Activity 중지됨');
+      console.log('Live Activity 중지됨');
       this.activityId = null;
     } catch (error) {
-      console.error('❌ Live Activity 중지 실패:', error);
+      console.error('Live Activity 중지 실패:', error);
       this.activityId = null;
     }
   }
