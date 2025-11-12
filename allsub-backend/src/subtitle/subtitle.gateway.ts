@@ -26,8 +26,6 @@ interface ClientSession {
   processingTimer?: NodeJS.Timeout;
 }
 
-
-
 @Injectable()
 @WebSocketGateway({
   cors: {

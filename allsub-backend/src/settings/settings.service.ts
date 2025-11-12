@@ -29,7 +29,8 @@ export class SettingsService {
   async toggleCaption(userId: string) {
     const settings = await this.getUserSettings(userId);
     if (!settings) {
-      return this.updateCaptionSettings(userId, true);
+      // 설정이 없으면 초기 상태는 OFF로 생성
+      return this.updateCaptionSettings(userId, false);
     }
     return this.updateCaptionSettings(userId, !settings.isCaptionEnabled);
   }
