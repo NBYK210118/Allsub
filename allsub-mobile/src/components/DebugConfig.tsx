@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Platform } from 'react-native';
 import { ENV_CONFIG, ALL_CONFIGS, API_BASE_URL, WS_BASE_URL } from '../config/environment';
 
+interface DebugConfigProps {
+  onClose?: () => void;
+}
+
 /**
  * 디버그용 환경 설정 표시 컴포넌트
  * 개발 중에만 사용하세요!
  */
-const DebugConfig: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
+const DebugConfig: React.FC<DebugConfigProps> = ({ onClose }) => {
+  const [isVisible, setIsVisible] = useState(true); // 메뉴에서 호출되면 바로 표시
 
   if (!__DEV__) {
     // 프로덕션에서는 표시하지 않음
@@ -30,7 +34,10 @@ const DebugConfig: React.FC = () => {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>🔧 환경 설정 디버그</Text>
-          <TouchableOpacity onPress={() => setIsVisible(false)}>
+          <TouchableOpacity onPress={() => {
+            setIsVisible(false);
+            onClose?.();
+          }}>
             <Text style={styles.closeButton}>✕</Text>
           </TouchableOpacity>
         </View>

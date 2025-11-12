@@ -51,7 +51,7 @@ npm install
 **실제 디바이스에서 테스트하려면:**
 1. `src/config/environment.ts` 파일 열기
 2. `DEV_DEVICE_CONFIG`에서 개발 PC의 WiFi IP 입력
-   ```typescript
+```typescript
    const DEV_DEVICE_CONFIG = {
      apiBaseUrl: 'http://192.168.0.15:3000',  // 실제 IP로 변경
      wsBaseUrl: 'http://192.168.0.15:3000',

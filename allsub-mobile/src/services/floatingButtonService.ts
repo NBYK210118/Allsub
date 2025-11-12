@@ -9,8 +9,7 @@ class FloatingButtonService {
    * 오버레이 권한 확인
    */
   async checkPermission(): Promise<boolean> {
-    if (Platform.OS !== 'android') {
-      console.log('Floating button only available on Android');
+    if (Platform.OS !== 'android' || !FloatingButtonModule) {
       return false;
     }
 
@@ -28,7 +27,7 @@ class FloatingButtonService {
    * 설정 화면으로 이동
    */
   async requestPermission(): Promise<boolean> {
-    if (Platform.OS !== 'android') {
+    if (Platform.OS !== 'android' || !FloatingButtonModule) {
       return false;
     }
 
@@ -45,8 +44,7 @@ class FloatingButtonService {
    * 플로팅 버튼 시작
    */
   async start(): Promise<boolean> {
-    if (Platform.OS !== 'android') {
-      console.log('Floating button only available on Android');
+    if (Platform.OS !== 'android' || !FloatingButtonModule) {
       return false;
     }
 
@@ -84,7 +82,7 @@ class FloatingButtonService {
    * 플로팅 버튼 중지
    */
   async stop(): Promise<void> {
-    if (Platform.OS !== 'android' || !this.isActive) {
+    if (Platform.OS !== 'android' || !this.isActive || !FloatingButtonModule) {
       return;
     }
 

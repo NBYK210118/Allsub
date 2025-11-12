@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.anonymous.allsubmobile.app-mergeDebugResources-52:/values-v33/values-v33.xml",
+            "outputFile": "com.anonymous.allsubmobile.app-mergeDebugResources-51:/values-v33/values-v33.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\MMC\\.gradle\\caches\\8.14.3\\transforms\\8272852a94efc1b3546f982a231056ab\\transformed\\core-splashscreen-1.2.0-alpha02\\res\\values-v33\\values-v33.xml",
+                    "source": "/Users/ieunho/.gradle/caches/8.14.3/transforms/ae113f2bdb6e09a4afa1f75df0aee4a6/transformed/jetified-core-splashscreen-1.2.0-alpha02/res/values-v33/values-v33.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

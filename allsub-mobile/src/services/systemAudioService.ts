@@ -11,8 +11,7 @@ class SystemAudioService {
    * Android 10 이상 지원 여부 확인
    */
   async isSupported(): Promise<boolean> {
-    if (Platform.OS !== 'android') {
-      console.log('System audio capture only available on Android');
+    if (Platform.OS !== 'android' || !AudioCaptureModule) {
       return false;
     }
 
@@ -30,8 +29,7 @@ class SystemAudioService {
    * MediaProjection 권한을 요청하고 서비스를 시작합니다
    */
   async start(serverUrl: string, serverPort: number): Promise<boolean> {
-    if (Platform.OS !== 'android') {
-      console.log('System audio capture only available on Android');
+    if (Platform.OS !== 'android' || !AudioCaptureModule) {
       return false;
     }
 

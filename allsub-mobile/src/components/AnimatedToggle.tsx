@@ -24,17 +24,17 @@ const AnimatedToggle: React.FC<AnimatedToggleProps> = ({ isEnabled, onToggle }) 
     Animated.parallel([
       Animated.timing(translateY, {
         toValue: isEnabled ? 1 : 0,
-        duration: 500,
+        duration: 250, // 500ms -> 250ms (더 빠른 반응)
         useNativeDriver: true,
       }),
       Animated.timing(gradientOpacity, {
         toValue: isEnabled ? 1 : 0,
-        duration: 300,
+        duration: 200, // 300ms -> 200ms
         useNativeDriver: true,
       }),
       Animated.timing(solidOpacity, {
         toValue: isEnabled ? 0 : 1,
-        duration: 300,
+        duration: 200, // 300ms -> 200ms
         useNativeDriver: true,
       }),
     ]).start(() => {

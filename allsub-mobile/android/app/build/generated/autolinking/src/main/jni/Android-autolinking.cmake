@@ -9,12 +9,12 @@ set(REACTNATIVE_MERGED_SO true)
 
 
 
-add_subdirectory("C:/Users/MMC/Downloads/allsub/allsub-mobile/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/" rngesturehandler_codegen_autolinked_build)
-add_subdirectory("C:/Users/MMC/Downloads/allsub/allsub-mobile/node_modules/react-native-permissions/android/build/generated/source/codegen/jni/" RNPermissionsSpec_autolinked_build)
-add_subdirectory("C:/Users/MMC/Downloads/allsub/allsub-mobile/node_modules/react-native-reanimated/android/build/generated/source/codegen/jni/" rnreanimated_autolinked_build)
-add_subdirectory("C:/Users/MMC/Downloads/allsub/allsub-mobile/node_modules/react-native-safe-area-context/android/src/main/jni/" safeareacontext_autolinked_build)
-add_subdirectory("C:/Users/MMC/Downloads/allsub/allsub-mobile/node_modules/react-native-screens/android/src/main/jni/" rnscreens_autolinked_build)
-add_subdirectory("C:/Users/MMC/Downloads/allsub/allsub-mobile/node_modules/react-native-worklets/android/build/generated/source/codegen/jni/" rnworklets_autolinked_build)
+add_subdirectory("/Users/ieunho/Downloads/Allsub/allsub-mobile/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/" rngesturehandler_codegen_autolinked_build)
+add_subdirectory("/Users/ieunho/Downloads/Allsub/allsub-mobile/node_modules/react-native-permissions/android/build/generated/source/codegen/jni/" RNPermissionsSpec_autolinked_build)
+add_subdirectory("/Users/ieunho/Downloads/Allsub/allsub-mobile/node_modules/react-native-reanimated/android/build/generated/source/codegen/jni/" rnreanimated_autolinked_build)
+add_subdirectory("/Users/ieunho/Downloads/Allsub/allsub-mobile/node_modules/react-native-safe-area-context/android/src/main/jni/" safeareacontext_autolinked_build)
+add_subdirectory("/Users/ieunho/Downloads/Allsub/allsub-mobile/node_modules/react-native-screens/android/src/main/jni/" rnscreens_autolinked_build)
+add_subdirectory("/Users/ieunho/Downloads/Allsub/allsub-mobile/node_modules/react-native-worklets/android/build/generated/source/codegen/jni/" rnworklets_autolinked_build)
 
 set(AUTOLINKED_LIBRARIES
   
