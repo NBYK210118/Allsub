@@ -12,15 +12,15 @@ const SERVER_URL = WS_BASE_URL;
 
 // 환경 설정 디버깅 로그
 console.log('');
-console.log('=== SubtitleService 환경 설정 확인 ===');
+console.log('--- SubtitleService 환경 설정 확인 ---');
 console.log('Platform:', Platform.OS);
 console.log('__DEV__:', __DEV__);
 console.log('WS_BASE_URL:', WS_BASE_URL);
 console.log('SERVER_URL:', SERVER_URL);
 console.log('');
 console.log('예상 값: http://localhost:3000');
-console.log('Android는 adb reverse tcp:3000 tcp:3000 설정 필요');
-console.log('='.repeat(50));
+console.log('   (Android는 adb reverse tcp:3000 tcp:3000 필요)');
+console.log('------------------------------');
 console.log('');
 
 export interface SubtitleServiceState {
@@ -152,16 +152,15 @@ class SubtitleService {
     microphoneMode: 'auto' | 'push-to-talk' = 'push-to-talk'
   ): Promise<boolean> {
     try {
-      console.log('------------------------------');
-      console.log('SubtitleService.start() 호출됨');
-      console.log('------------------------------');
+      console.log('');
+      console.log('--- SubtitleService.start() 호출 ---');
       console.log('SERVER_URL:', SERVER_URL);
       console.log('User ID:', userId);
       console.log('Source Language:', sourceLanguage);
       console.log('Target Language:', targetLanguage);
       console.log('Platform:', Platform.OS);
       console.log('Dev Mode:', __DEV__);
-      console.log('='.repeat(50));
+      console.log('------------------------------');
       console.log('');
       
       // 환경 정보 로깅
@@ -177,6 +176,7 @@ class SubtitleService {
       this.lastMicrophoneMode = microphoneMode;
 
       // 1. WebSocket 서버에 연결
+      console.log('');
       console.log('STEP 1: WebSocket 연결 시도 중...');
       console.log('   URL:', SERVER_URL);
       console.log('   URL 타입:', typeof SERVER_URL);
@@ -197,10 +197,12 @@ class SubtitleService {
           Diagnostics.logServiceStartFailure('WebSocket 연결 실패');
           return false;
         }
-      } catch (error: any) {
+      } catch (error) {
         console.error('STEP 1 예외 발생:', error);
-        console.error('   에러 메시지:', error?.message);
-        console.error('   에러 스택:', error?.stack);
+        if (error instanceof Error) {
+          console.error('   에러 메시지:', error.message);
+          console.error('   에러 스택:', error.stack);
+        }
         return false;
       }
       console.log('STEP 1 완료: WebSocket 연결 성공');

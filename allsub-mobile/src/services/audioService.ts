@@ -25,9 +25,9 @@ class AudioService {
       this.hasPermission = status === 'granted';
       
       if (this.hasPermission) {
-        console.log('마이크 권한 허용됨');
+        console.log('마이크 권한 허용됨!');
       } else {
-        console.log('마이크 권한 거부됨');
+        console.log('마이크 권한 거부됨!');
         console.log('설정 > AllSub > 마이크 권한 확인 필요');
       }
       console.log('------------------------------');
@@ -85,7 +85,7 @@ class AudioService {
       // 주기적으로 녹음을 시작하고 중지하여 청크 생성
       this.startChunkedRecording(chunkDuration);
       
-      console.log('오디오 녹음 시작 성공');
+      console.log('오디오 녹음 시작 성공!');
       console.log('');
       
       return true;

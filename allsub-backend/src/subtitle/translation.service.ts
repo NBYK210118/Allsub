@@ -97,14 +97,14 @@ export class TranslationService {
     }
 
     this.logger.log('translateByDirection 호출됨');
-    this.logger.log(`   원본 텍스트: ${text}`);
-    this.logger.log(`   번역 방향: ${direction}`);
+    this.logger.log(`원본 텍스트: ${text}`);
+    this.logger.log(`번역 방향: ${direction}`);
     
     const targetLanguage = direction === 'ko-to-en' ? 'en' : 'ko';
-    this.logger.log(`   타겟 언어: ${targetLanguage}`);
+    this.logger.log(`타겟 언어: ${targetLanguage}`);
     
     const result = await this.translate(text, targetLanguage);
-    this.logger.log(`   번역 결과: ${result}`);
+    this.logger.log(`번역 결과: ${result}`);
     
     return result;
   }

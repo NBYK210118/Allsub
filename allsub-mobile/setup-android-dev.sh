@@ -1,9 +1,7 @@
 #!/bin/bash
 
 echo ""
-echo "=============================="
-echo "Android 에뮬레이터 개발 환경 설정"
-echo "=============================="
+echo "--- Android 에뮬레이터 개발 환경 설정 ---"
 echo ""
 
 # adb reverse로 localhost 포트포워딩
@@ -18,7 +16,7 @@ if [ $? -eq 0 ]; then
   echo "   - 3000: HTTP & WebSocket"
   echo "   - 3001: Audio Stream"
   echo ""
-  echo "이제 Android 에뮬레이터에서 localhost:3000으로 백엔드 접근 가능합니다!"
+  echo "Android 에뮬레이터에서 localhost:3000으로 백엔드 접근 가능합니다."
 else
   echo "포트포워딩 설정 실패"
   echo ""
@@ -29,7 +27,7 @@ else
 fi
 
 echo ""
-echo "=============================="
+echo "----------------------------------------------"
 echo ""
 
 

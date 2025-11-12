@@ -52,7 +52,7 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
 
   handleConnection(client: Socket) {
     console.log('');
-    console.log('=== WebSocket 클라이언트 연결됨 ===');
+    console.log('--- WebSocket 클라이언트 연결 ---');
     console.log('Socket ID:', client.id);
     console.log('Transport:', client.conn.transport.name);
     console.log('Client IP:', client.handshake.address);
@@ -61,14 +61,12 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
     console.log('------------------------------');
     console.log('');
 
-    this.logger.log(`WebSocket CLIENT CONNECTED - Socket ID: ${client.id}, IP: ${client.handshake.address}`);
+    this.logger.log(`WebSocket client connected - Socket ID: ${client.id}, IP: ${client.handshake.address}`);
   }
 
   handleDisconnect(client: Socket) {
     console.log('');
-    console.log('------------------------------');
-    console.log('WebSocket 클라이언트 연결 해제됨');
-    console.log('------------------------------');
+    console.log('--- WebSocket 클라이언트 연결 해제 ---');
     console.log('Socket ID:', client.id);
     console.log('------------------------------');
     console.log('');
@@ -89,8 +87,8 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
     @ConnectedSocket() client: Socket,
     @MessageBody() data: { userId: string; language?: string; targetLanguage?: string; translationDirection?: 'ko-to-en' | 'en-to-ko'; microphoneMode?: 'auto' | 'push-to-talk' },
   ) {
-    console.log('------------------------------');
-    console.log('토글 ON (WebSocket)');
+    console.log('');
+    console.log('--- 토글 ON (WebSocket) ---');
     console.log('Client ID:', client.id);
     console.log('User ID:', data.userId);
     console.log('요청 시간:', new Date().toLocaleString('ko-KR'));
@@ -99,6 +97,7 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
     console.log('Translation Direction:', data.translationDirection || 'ko-to-en');
     console.log('Microphone Mode:', data.microphoneMode || 'push-to-talk');
     console.log('------------------------------');
+    console.log('');
 
     this.logger.log(`TOGGLE ON - Starting subtitle service for client: ${client.id}, user: ${data.userId}`);
 
@@ -127,6 +126,7 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
     
     console.log('subtitle-status 이벤트 전송 완료');
     console.log('------------------------------');
+    console.log('');
   }
 
   @SubscribeMessage('set-translation-direction')
@@ -135,9 +135,7 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
     @MessageBody() data: { translationDirection: 'ko-to-en' | 'en-to-ko' },
   ) {
     console.log('');
-    console.log('------------------------------');
-    console.log('[set-translation-direction] 요청 수신');
-    console.log('------------------------------');
+    console.log('--- [set-translation-direction] 요청 수신 ---');
     console.log('Client ID:', client.id);
     console.log('Translation Direction:', data.translationDirection);
     console.log('------------------------------');
@@ -170,9 +168,7 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
     @MessageBody() data: { microphoneMode: 'auto' | 'push-to-talk' },
   ) {
     console.log('');
-    console.log('------------------------------');
-    console.log('[set-microphone-mode] 요청 수신');
-    console.log('------------------------------');
+    console.log('--- [set-microphone-mode] 요청 수신 ---');
     console.log('Client ID:', client.id);
     console.log('Microphone Mode:', data.microphoneMode);
     console.log('------------------------------');
@@ -205,11 +201,9 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
     @MessageBody() data: { isPushToTalkActive: boolean },
   ) {
     console.log('');
-    console.log('------------------------------');
-    console.log(' [set-push-to-talk-active] 요청 수신');
-    console.log('------------------------------');  
-    console.log(' Client ID:', client.id);
-    console.log(' Push-to-Talk Active:', data.isPushToTalkActive);
+    console.log('--- [set-push-to-talk-active] 요청 수신 ---');
+    console.log('Client ID:', client.id);
+    console.log('Push-to-Talk Active:', data.isPushToTalkActive);
     console.log('------------------------------');
     console.log('');
 
@@ -236,11 +230,12 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
 
   @SubscribeMessage('stop-subtitle')
   handleStopSubtitle(@ConnectedSocket() client: Socket) {
-    console.log('------------------------------');
-    console.log('토글 OFF (WebSocket)');
+    console.log('');
+    console.log('--- 토글 OFF (WebSocket) ---');
     console.log('Client ID:', client.id);
     console.log('요청 시간:', new Date().toLocaleString('ko-KR'));
     console.log('------------------------------');
+    console.log('');
     
     const session = this.sessions.get(client.id);
     if (session) {
@@ -272,6 +267,7 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
     
     console.log('subtitle-status 이벤트 전송 완료');
     console.log('------------------------------');
+    console.log('');
   }
 
   @SubscribeMessage('audio-chunk')
@@ -280,13 +276,11 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
     @MessageBody() data: { audio: Buffer | string; encoding?: string },
   ) {
     console.log('');
-    console.log('------------------------------');
-    console.log('[audio-chunk] 요청 수신');
-    console.log('------------------------------');
+    console.log('--- [audio-chunk] 요청 수신 ---');
     console.log('Client ID:', client.id);
-    console.log(' Data type:', typeof data.audio);
-    console.log(' Data size:', typeof data.audio === 'string' ? data.audio.length + ' chars' : 'buffer');
-    console.log(' Encoding:', data.encoding || 'unknown');
+    console.log('Data type:', typeof data.audio);
+    console.log('Data size:', typeof data.audio === 'string' ? data.audio.length + ' chars' : 'buffer');
+    console.log('Encoding:', data.encoding || 'unknown');
     console.log('------------------------------');
     console.log('');
     
@@ -300,7 +294,7 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
 
     // 마이크 모드 확인
     if (session.microphoneMode === 'push-to-talk' && !session.isPushToTalkActive) {
-      console.log('Push-to-Talk 버튼이 활성화되지 않아 오디오 처리를 건너뜁니다.');
+      console.log('Push-to-Talk 버튼이 눌리지 않아 오디오 처리를 건너뜁니다.');
       console.log('');
       return;
     }
@@ -372,7 +366,7 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
         this.logger.log(` 세션 번역 방향: ${session.translationDirection}`);
         
         if (session.translationDirection) {
-          this.logger.log(`번역 시작: ${transcription} (${session.translationDirection})`);
+          this.logger.log(` 번역 시작: ${transcription} (${session.translationDirection})`);
           translatedText = await this.translationService.translateByDirection(
             transcription,
             session.translationDirection,
@@ -391,7 +385,7 @@ export class SubtitleGateway implements OnGatewayConnection, OnGatewayDisconnect
 
         this.logger.log(`자막 전송 완료 -> ${client.id}`);
       } else {
-        this.logger.warn('음성 인식 결과 없음 (소리가 감지되지 않았거나 너무 짧음)');
+        this.logger.warn('  음성 인식 결과 없음 (소리가 감지되지 않았거나 너무 짧음)');
       }
     } catch (error) {
       this.logger.error(`Error processing transcription: ${error.message}`);

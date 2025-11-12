@@ -84,11 +84,13 @@ class WebSocketService {
           console.log('Socket created:', !!this.socket);
           console.log('   Socket 타입:', typeof this.socket);
           console.log('   Socket ID:', this.socket?.id);
-        } catch (socketError: any) {
+        } catch (socketError) {
           console.error('Socket 생성 중 에러 발생:');
           console.error('   에러:', socketError);
-          console.error('   에러 메시지:', socketError?.message);
-          console.error('   에러 스택:', socketError?.stack);
+          if (socketError instanceof Error) {
+            console.error('   에러 메시지:', socketError.message);
+            console.error('   에러 스택:', socketError.stack);
+          }
           this.socket = null;
           resolve(false);
           return;
@@ -97,7 +99,7 @@ class WebSocketService {
         this.socket.on('connect', () => {
           console.log('');
           console.log('------------------------------');
-          console.log('WebSocket 연결 성공');
+          console.log('WebSocket 연결 성공!');
           console.log('------------------------------');
           console.log('Socket ID:', this.socket?.id);
           console.log('Transport:', this.socket?.io.engine.transport.name);
@@ -140,7 +142,7 @@ class WebSocketService {
         this.socket.on('reconnect', (attemptNumber) => {
           console.log('');
           console.log('------------------------------');
-          console.log(`WebSocket 재연결 성공 (${attemptNumber}번 만에)`);
+          console.log(`WebSocket 재연결 성공! (${attemptNumber}번 만에)`);
           console.log('------------------------------');
           console.log('');
           this.isConnected = true;
@@ -184,7 +186,7 @@ class WebSocketService {
         this.socket.on('subtitle-text', (data: SubtitleData) => {
           console.log('');
           console.log('------------------------------');
-          console.log('자막 수신');
+          console.log('자막 수신!');
           console.log('------------------------------');
           console.log('원본:', data.original);
           console.log('번역:', data.translated);
@@ -235,7 +237,7 @@ class WebSocketService {
             resolve(false);
           }
         }, 20000);
-      } catch (error: any) {
+      } catch (error) {
         console.log('');
         console.log('------------------------------');
         console.log('WebSocket 생성 중 예외 발생');

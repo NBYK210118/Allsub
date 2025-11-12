@@ -17,9 +17,7 @@ export class ApiService {
     const url = `${API_BASE_URL}${endpoint}`;
     
     console.log('');
-    console.log('------------------------------');
-    console.log('REST API 요청 전송');
-    console.log('------------------------------');
+    console.log('--- REST API 요청 전송 ---');
     console.log('URL:', url);
     console.log('Method:', options.method || 'GET');
     console.log('요청 시간:', new Date().toLocaleString('ko-KR'));

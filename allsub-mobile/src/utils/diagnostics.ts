@@ -12,9 +12,7 @@ export class Diagnostics {
    */
   static logEnvironmentInfo() {
     console.log('');
-    console.log('------------------------------');
-    console.log('환경 설정 진단');
-    console.log('------------------------------');
+    console.log('--- 환경 설정 진단 ---');
     console.log('');
     console.log('Platform:', Platform.OS);
     console.log('Environment:', __DEV__ ? 'Development' : 'Production');
@@ -23,7 +21,7 @@ export class Diagnostics {
     console.log('   REST API URL:', API_BASE_URL);
     console.log('   WebSocket URL:', WS_BASE_URL);
     console.log('');
-    console.log('올바른 설정:');
+    console.log('권장 설정:');
     console.log('   iOS & Android: http://localhost:3000');
     console.log('   (Android는 adb reverse tcp:3000 tcp:3000 필요)');
     console.log('');
@@ -36,9 +34,7 @@ export class Diagnostics {
    */
   static logConnectionFailure(serverUrl: string, error?: any) {
     console.log('');
-    console.log('------------------------------');
-    console.log('WebSocket 연결 실패 진단');
-    console.log('------------------------------');
+    console.log('--- WebSocket 연결 실패 진단 ---');
     console.log('');
     console.log('시도한 URL:', serverUrl);
     if (error) {
@@ -47,25 +43,25 @@ export class Diagnostics {
     console.log('');
     console.log('가능한 원인:');
     console.log('');
-    console.log('1. 백엔드 서버 미실행');
-    console.log('   확인: lsof -i :3000');
-    console.log('   실행: cd allsub-backend && npm run start:dev');
+    console.log('1) 백엔드 서버 미실행');
+    console.log('   - 확인: lsof -i :3000');
+    console.log('   - 실행: cd allsub-backend && npm run start:dev');
     console.log('');
-    console.log('2. 잘못된 URL 설정');
-    console.log('   현재 URL:', serverUrl);
-    console.log('   올바른 URL: http://localhost:3000 (adb reverse 사용)');
+    console.log('2) 잘못된 URL 설정');
+    console.log('   - 현재 URL:', serverUrl);
+    console.log('   - 올바른 URL: http://localhost:3000 (adb reverse 사용)');
     console.log('');
-    console.log('3. 방화벽 차단');
-    console.log('   macOS: 시스템 환경설정 > 보안 > 방화벽');
-    console.log('   Node.js 허용 확인');
+    console.log('3) 방화벽 차단');
+    console.log('   - macOS: 시스템 환경설정 > 보안 > 방화벽');
+    console.log('   - Node.js 허용 상태 확인');
     console.log('');
-    console.log('4. 네트워크 문제');
-    console.log('   VPN 사용 중이면 비활성화');
-    console.log('   WiFi 연결 확인');
+    console.log('4) 네트워크 문제');
+    console.log('   - VPN 사용 중이면 비활성화');
+    console.log('   - WiFi 연결 상태 확인');
     console.log('');
-    console.log('5. 포트 충돌');
-    console.log('   다른 앱이 3000 포트 사용 중일 수 있음');
-    console.log('   lsof -i :3000 으로 확인');
+    console.log('5) 포트 충돌');
+    console.log('   - 다른 앱이 3000 포트를 사용 중일 수 있음');
+    console.log('   - lsof -i :3000 으로 확인');
     console.log('');
     console.log('------------------------------');
     console.log('');
@@ -76,26 +72,24 @@ export class Diagnostics {
    */
   static logServiceStartFailure(reason: string) {
     console.log('');
-    console.log('------------------------------');
-    console.log('자막 서비스 시작 실패 진단');
-    console.log('------------------------------');
+    console.log('--- 자막 서비스 시작 실패 진단 ---');
     console.log('');
     console.log('실패 원인:', reason);
     console.log('');
     console.log('체크리스트:');
     console.log('');
-    console.log('- WebSocket 연결 성공?');
-    console.log('   "WebSocket 연결 성공" 로그 확인');
+    console.log('[ ] WebSocket 연결 성공 여부');
+    console.log('    - "WebSocket 연결 성공!" 로그 확인');
     console.log('');
-    console.log('- 마이크 권한 허용?');
-    console.log('   "마이크 권한 허용됨" 로그 확인');
-    console.log('   권한 팝업에서 "확인" 선택했는지 확인');
+    console.log('[ ] 마이크 권한 허용 여부');
+    console.log('    - "마이크 권한 허용됨!" 로그 확인');
+    console.log('    - 권한 팝업에서 "확인"을 선택했는지 확인');
     console.log('');
-    console.log('- 오디오 녹음 시작 성공?');
-    console.log('   "오디오 녹음 시작 성공" 로그 확인');
+    console.log('[ ] 오디오 녹음 시작 성공 여부');
+    console.log('    - "오디오 녹음 시작 성공!" 로그 확인');
     console.log('');
-    console.log('- 백엔드 서버 정상 작동?');
-    console.log('   백엔드 콘솔에서 에러 확인');
+    console.log('[ ] 백엔드 서버 정상 작동 여부');
+    console.log('    - 백엔드 콘솔에서 에러 확인');
     console.log('');
     console.log('해결 방법:');
     console.log('   1. 앱 재시작');
@@ -111,9 +105,7 @@ export class Diagnostics {
    */
   static logSuccessInfo() {
     console.log('');
-    console.log('------------------------------');
-    console.log('자막 서비스 정상 작동 중');
-    console.log('------------------------------');
+    console.log('--- 자막 서비스 정상 작동 중 ---');
     console.log('');
     console.log('WebSocket 연결됨');
     console.log('마이크 권한 허용됨');

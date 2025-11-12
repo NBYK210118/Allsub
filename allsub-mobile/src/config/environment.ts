@@ -7,7 +7,7 @@ import { Platform } from 'react-native';
 
 // 현재 네트워크 환경에 맞는 IP 주소들
 const NETWORK_IPS = {
-  // 현재 개발 PC IP - ifconfig로 확인 후 업데이트하세요!
+  // 주의: 현재 개발 PC IP - ifconfig로 확인 후 업데이트하세요!
   current: '10.50.215.125', // ← 현재 WiFi IP (업데이트됨)
   // 이전 IP들 (백업용)
   previous: '192.168.0.78',
@@ -50,9 +50,7 @@ const DEV_DEVICE_CONFIG = {
  */
 function getEnvironmentConfig() {
   console.log('');
-  console.log('------------------------------');
-  console.log('Environment 설정 결정 중');
-  console.log('------------------------------');
+  console.log('--- Environment 설정 결정 중 ---');
   console.log('Platform.OS:', Platform.OS);
   console.log('__DEV__:', __DEV__);
   console.log('');
@@ -73,7 +71,7 @@ function getEnvironmentConfig() {
   console.log('   WS:', DEV_DEVICE_CONFIG.wsBaseUrl);
   console.log('');
   console.log('Expo Go는 실제 네트워크 IP가 필요합니다');
-  console.log('   네트워크가 변경되면 NETWORK_IPS.current를 업데이트하세요');
+  console.log('네트워크가 변경되면 NETWORK_IPS.current를 업데이트하세요');
   console.log('');
   return DEV_DEVICE_CONFIG;
 }
@@ -122,17 +120,13 @@ export function getConfigForPlatform(
 
 // 현재 사용 중인 설정 정보 로깅
 console.log('');
-console.log('------------------------------');
-console.log('Environment Configuration');
-console.log('------------------------------');
+console.log('--- Environment Configuration ---');
 console.log(`Platform: ${Platform.OS}`);
 console.log(`Environment: ${__DEV__ ? 'Development' : 'Production'}`);
 console.log(`Current Network IP: ${NETWORK_IPS.current}`);
 console.log(`API Base URL: ${API_BASE_URL}`);
 console.log(`WebSocket URL: ${WS_BASE_URL}`);
 console.log(`설정 로드 시간: ${new Date().toLocaleString('ko-KR')}`);
-console.log('------------------------------');
 console.log('네트워크 환경이 변경된 경우 NETWORK_IPS.current를 업데이트하세요!');
-console.log('------------------------------');
 console.log('');
 

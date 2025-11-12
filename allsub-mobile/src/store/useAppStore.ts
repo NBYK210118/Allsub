@@ -32,9 +32,7 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   toggleCaption: async () => {
     console.log('');
-    console.log('------------------------------');
-    console.log('toggleCaption() 호출됨 (프론트엔드)');
-    console.log('------------------------------');
+    console.log('--- toggleCaption() 호출됨 (프론트엔드) ---');
     
     // 즉시 로컬 상태 변경 (빠른 UI 반응)
     const currentState = get().isCaptionEnabled;
@@ -61,17 +59,17 @@ export const useAppStore = create<AppState>((set, get) => ({
       
       if (settings) {
         console.log('백엔드 응답 수신 성공');
-        console.log('서버 상태:', settings.isCaptionEnabled ? 'ON' : 'OFF');
-        console.log('로컬 상태:', newState ? 'ON' : 'OFF');
+        console.log('   서버 상태:', settings.isCaptionEnabled ? 'ON' : 'OFF');
+        console.log('   로컬 상태:', newState ? 'ON' : 'OFF');
         
         // 서버 응답이 로컬 상태와 다르면 서버 상태로 업데이트
         if (settings.isCaptionEnabled !== newState) {
-          console.log('서버 상태와 로컬 상태가 달라 서버 상태로 동기화');
+          console.log('서버 상태와 로컬 상태가 다름 - 서버 상태로 동기화');
           set({ 
             isCaptionEnabled: settings.isCaptionEnabled,
             captionText: settings.captionText 
           });
-          console.log('최종 상태:', settings.isCaptionEnabled ? 'ON' : 'OFF');
+          console.log('   최종 상태:', settings.isCaptionEnabled ? 'ON' : 'OFF');
         } else {
           console.log('서버 상태와 로컬 상태 일치');
         }
@@ -82,8 +80,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       console.log('------------------------------');
       console.log('');
     } catch (error: any) {
-      console.error('API 호출 실패:');
-      console.error('   Error:', error?.message || error);
+      console.error('API 호출 실패:', error?.message || error);
       console.error('   Error Type:', error?.name);
       console.error('   Error Stack:', error?.stack);
       console.error('로컬 상태 유지:', newState ? 'ON' : 'OFF');

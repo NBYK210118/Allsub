@@ -19,11 +19,11 @@ export class LoggingInterceptor implements NestInterceptor {
 
     // 요청 정보 로깅
     console.log('');
-    console.log('=== HTTP 요청 수신 (미들웨어) ===');
-    console.log(`${method} ${url}`);
+    console.log('--- HTTP 요청 수신 (미들웨어) ---');
+    console.log(`요청: ${method} ${url}`);
     console.log(`IP: ${request.ip || request.connection?.remoteAddress}`);
     console.log(`요청 시간: ${new Date().toLocaleString('ko-KR')}`);
-
+    
     if (Object.keys(params).length > 0) {
       console.log('Params:', JSON.stringify(params));
     }
@@ -45,11 +45,11 @@ export class LoggingInterceptor implements NestInterceptor {
           const delay = Date.now() - now;
           
           console.log('');
-          console.log('=== HTTP 응답 전송 (미들웨어) ===');
-          console.log(`${method} ${url}`);
+          console.log('--- HTTP 응답 전송 (미들웨어) ---');
+          console.log(`요청: ${method} ${url}`);
           console.log(`Status: ${response.statusCode}`);
           console.log(`처리 시간: ${delay}ms`);
-          console.log('==============================');
+          console.log('------------------------------');
           console.log('');
           
           this.logger.log(`${method} ${url} - ${response.statusCode} - ${delay}ms`);
@@ -58,11 +58,11 @@ export class LoggingInterceptor implements NestInterceptor {
           const delay = Date.now() - now;
           
           console.error('');
-          console.error('=== HTTP 에러 발생 (미들웨어) ===');
-          console.error(`${method} ${url}`);
+          console.error('--- HTTP 에러 발생 (미들웨어) ---');
+          console.error(`요청: ${method} ${url}`);
           console.error(`Error: ${error?.message || error}`);
           console.error(`처리 시간: ${delay}ms`);
-          console.error('==============================');
+          console.error('------------------------------');
           console.error('');
           
           this.logger.error(`${method} ${url} - Error - ${delay}ms - ${error?.message}`);

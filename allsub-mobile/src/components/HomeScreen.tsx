@@ -133,9 +133,8 @@ const HomeScreen: React.FC = () => {
 
   // 자막 서비스 상태 관리
   useEffect(() => {
-    console.log('------------------------------');
-    console.log('useEffect 실행 (isCaptionEnabled 변경)');
-    console.log('------------------------------');
+    console.log('');
+    console.log('--- useEffect 실행 (isCaptionEnabled 변경) ---');
     console.log('isCaptionEnabled:', isCaptionEnabled ? 'ON' : 'OFF');
     console.log('실행 시간:', new Date().toLocaleString('ko-KR'));
     console.log('');
@@ -176,11 +175,10 @@ const HomeScreen: React.FC = () => {
         translationDirection, // 번역 방향
         microphoneMode // 마이크 모드
       ).then(success => {
-        console.log('------------------------------');
-        console.log('SubtitleService.start() 결과');
-        console.log('------------------------------');
+        console.log('');
+        console.log('--- SubtitleService.start() 결과 ---');
         console.log('성공:', success ? 'YES' : 'NO');
-        console.log('==============================');
+        console.log('------------------------------');
         console.log('');
         
         if (!success) {
@@ -200,7 +198,7 @@ const HomeScreen: React.FC = () => {
 
     return () => {
       // 컴포넌트 언마운트 시 정리
-      console.log('🧹 HomeScreen: Cleanup - SubtitleService.stop()');
+      console.log('HomeScreen: Cleanup - SubtitleService.stop()');
       SubtitleService.stop();
     };
   }, [isCaptionEnabled, translationDirection, microphoneMode]);
