@@ -49,7 +49,7 @@ export class TranslationService {
       try {
         const targetLangName = targetLanguage === 'en' || targetLanguage === 'en-US' ? 'English' : 'Korean';
         
-        this.logger.log(`OpenAI 번역 시작: ${text} -> ${targetLangName}`);
+        this.logger.log(`🤖 OpenAI 번역 시작: ${text} → ${targetLangName}`);
         
         const response = await this.openai.chat.completions.create({
           model: 'gpt-4o-mini',
@@ -68,7 +68,7 @@ export class TranslationService {
         });
 
         const translation = response.choices[0]?.message?.content?.trim() || text;
-        this.logger.log(`OpenAI 번역 완료: ${translation}`);
+          this.logger.log(`OpenAI 번역 완료: ${translation}`);
         return translation;
       } catch (error) {
         this.logger.error('OpenAI Translation error:', error);
@@ -96,15 +96,15 @@ export class TranslationService {
       return text;
     }
 
-    this.logger.log('translateByDirection 호출됨');
-    this.logger.log(`원본 텍스트: ${text}`);
-    this.logger.log(`번역 방향: ${direction}`);
+    this.logger.log(`translateByDirection 호출됨`);
+    this.logger.log(`   원본 텍스트: ${text}`);
+    this.logger.log(`   번역 방향: ${direction}`);
     
     const targetLanguage = direction === 'ko-to-en' ? 'en' : 'ko';
-    this.logger.log(`타겟 언어: ${targetLanguage}`);
+    this.logger.log(`   타겟 언어: ${targetLanguage}`);
     
     const result = await this.translate(text, targetLanguage);
-    this.logger.log(`번역 결과: ${result}`);
+    this.logger.log(`   번역 결과: ${result}`);
     
     return result;
   }
@@ -150,8 +150,8 @@ export class TranslationService {
   private simulateTranslation(text: string, targetLanguage: string): string {
     // 간단한 규칙 기반 번역 (시뮬레이션)
     // 실제로는 사전에 없는 모든 텍스트를 번역하지 않고 [EN] 또는 [KO] 태그만 붙임
-    this.logger.log('시뮬레이션 모드: 사전에 없는 텍스트는 태그만 추가됩니다');
-    this.logger.log('Google Cloud Translation API를 사용하려면 GOOGLE_APPLICATION_CREDENTIALS를 설정하세요');
+        this.logger.log(`시뮬레이션 모드: 사전에 없는 텍스트는 태그만 추가됩니다`);
+      this.logger.log(`Google Cloud Translation API를 사용하려면 GOOGLE_APPLICATION_CREDENTIALS를 설정하세요`);
     
     // 한국어 -> 영어 시뮬레이션
     const koreanToEnglish: { [key: string]: string } = {

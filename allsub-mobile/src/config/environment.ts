@@ -7,7 +7,7 @@ import { Platform } from 'react-native';
 
 // 현재 네트워크 환경에 맞는 IP 주소들
 const NETWORK_IPS = {
-  // 주의: 현재 개발 PC IP - ifconfig로 확인 후 업데이트하세요!
+  // ⚠️ 현재 개발 PC IP - ifconfig로 확인 후 업데이트하세요!
   current: '10.50.215.125', // ← 현재 WiFi IP (업데이트됨)
   // 이전 IP들 (백업용)
   previous: '192.168.0.78',
@@ -50,28 +50,28 @@ const DEV_DEVICE_CONFIG = {
  */
 function getEnvironmentConfig() {
   console.log('');
-  console.log('--- Environment 설정 결정 중 ---');
-  console.log('Platform.OS:', Platform.OS);
-  console.log('__DEV__:', __DEV__);
+  console.log('[Environment] Selecting configuration');
+  console.log('  Platform.OS:', Platform.OS);
+  console.log('  __DEV__:', __DEV__);
   console.log('');
 
   // 프로덕션 환경
   if (!__DEV__) {
-    console.log('선택: PRODUCTION config');
-    console.log('   API:', PRODUCTION_CONFIG.apiBaseUrl);
-    console.log('   WS:', PRODUCTION_CONFIG.wsBaseUrl);
+    console.log('Using PRODUCTION config');
+    console.log('  API:', PRODUCTION_CONFIG.apiBaseUrl);
+    console.log('  WS:', PRODUCTION_CONFIG.wsBaseUrl);
     console.log('');
     return PRODUCTION_CONFIG;
   }
 
   // 개발 환경 - Expo Go는 실제 디바이스처럼 실제 IP 필요
   // Expo Go에서는 localhost/127.0.0.1이 작동하지 않음!
-  console.log('선택: DEV DEVICE config (Expo Go 호환)');
-  console.log('   API:', DEV_DEVICE_CONFIG.apiBaseUrl);
-  console.log('   WS:', DEV_DEVICE_CONFIG.wsBaseUrl);
+  console.log('Using DEV DEVICE config (Expo Go)');
+  console.log('  API:', DEV_DEVICE_CONFIG.apiBaseUrl);
+  console.log('  WS:', DEV_DEVICE_CONFIG.wsBaseUrl);
   console.log('');
-  console.log('Expo Go는 실제 네트워크 IP가 필요합니다');
-  console.log('네트워크가 변경되면 NETWORK_IPS.current를 업데이트하세요');
+  console.log('Expo Go requires the actual network IP');
+  console.log('Update NETWORK_IPS.current when the network changes');
   console.log('');
   return DEV_DEVICE_CONFIG;
 }
@@ -120,13 +120,13 @@ export function getConfigForPlatform(
 
 // 현재 사용 중인 설정 정보 로깅
 console.log('');
-console.log('--- Environment Configuration ---');
-console.log(`Platform: ${Platform.OS}`);
-console.log(`Environment: ${__DEV__ ? 'Development' : 'Production'}`);
-console.log(`Current Network IP: ${NETWORK_IPS.current}`);
-console.log(`API Base URL: ${API_BASE_URL}`);
-console.log(`WebSocket URL: ${WS_BASE_URL}`);
-console.log(`설정 로드 시간: ${new Date().toLocaleString('ko-KR')}`);
-console.log('네트워크 환경이 변경된 경우 NETWORK_IPS.current를 업데이트하세요!');
+console.log('[Environment] Active configuration');
+console.log(`  Platform: ${Platform.OS}`);
+console.log(`  Environment: ${__DEV__ ? 'Development' : 'Production'}`);
+console.log(`  Current Network IP: ${NETWORK_IPS.current}`);
+console.log(`  API Base URL: ${API_BASE_URL}`);
+console.log(`  WebSocket URL: ${WS_BASE_URL}`);
+console.log(`  Loaded at: ${new Date().toLocaleString('ko-KR')}`);
+console.log('Update NETWORK_IPS.current if your network changes');
 console.log('');
 

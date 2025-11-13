@@ -32,7 +32,7 @@ class WebSocketService {
       try {
         // 기존 연결이 있으면 먼저 완전히 정리
         if (this.socket) {
-          console.log('기존 소켓 정리 중...');
+          console.log('[WebSocketService] Cleaning up existing socket');
           try {
             this.socket.removeAllListeners();
             this.socket.close();
@@ -47,29 +47,26 @@ class WebSocketService {
         this.reconnectAttempts = 0;
         
         console.log('');
-        console.log('------------------------------');
-        console.log('WebSocket 연결 시도');
-        console.log('------------------------------');
-        console.log('Server URL:', serverUrl);
-        console.log('Timeout: 20초');
-        console.log('Transport: polling -> websocket');
-        console.log('------------------------------');
+        console.log('[WebSocketService] Attempting connection');
+        console.log('  Server URL:', serverUrl);
+        console.log('  Timeout: 20 seconds');
+        console.log('  Transport: polling -> websocket');
         console.log('');
         
         // Socket.IO 함수 존재 확인
-        console.log('Socket.IO 함수 확인:');
-        console.log('   typeof io:', typeof io);
-        console.log('   io 존재:', !!io);
+        console.log('[WebSocketService] Checking socket.io factory');
+        console.log('  typeof io:', typeof io);
+        console.log('  io available:', !!io);
         
         if (!io) {
-          console.error('Socket.IO 클라이언트를 찾을 수 없습니다!');
-          console.error('   socket.io-client 패키지가 설치되어 있는지 확인하세요.');
+          console.error('Socket.IO client is not available');
+          console.error('Ensure socket.io-client package is installed');
           resolve(false);
           return;
         }
         
         try {
-          console.log('io() 함수 호출 중...');
+          console.log('[WebSocketService] Calling io() factory');
           this.socket = io(serverUrl, {
             transports: ['polling', 'websocket'],
             reconnection: true,
@@ -82,15 +79,14 @@ class WebSocketService {
           });
           
           console.log('Socket created:', !!this.socket);
-          console.log('   Socket 타입:', typeof this.socket);
-          console.log('   Socket ID:', this.socket?.id);
+          console.log('  Socket type:', typeof this.socket);
+          console.log('  Socket ID:', this.socket?.id);
         } catch (socketError) {
-          console.error('Socket 생성 중 에러 발생:');
-          console.error('   에러:', socketError);
-          if (socketError instanceof Error) {
-            console.error('   에러 메시지:', socketError.message);
-            console.error('   에러 스택:', socketError.stack);
-          }
+          const socketErr = socketError as { message?: string; stack?: string };
+          console.error('Error creating socket:');
+          console.error('  Error object:', socketError);
+          console.error('  Message:', socketErr?.message ?? String(socketError));
+          console.error('  Stack:', socketErr?.stack ?? 'N/A');
           this.socket = null;
           resolve(false);
           return;
@@ -98,12 +94,9 @@ class WebSocketService {
 
         this.socket.on('connect', () => {
           console.log('');
-          console.log('------------------------------');
-          console.log('WebSocket 연결 성공!');
-          console.log('------------------------------');
-          console.log('Socket ID:', this.socket?.id);
-          console.log('Transport:', this.socket?.io.engine.transport.name);
-          console.log('------------------------------');
+          console.log('[WebSocketService] Connected');
+          console.log('  Socket ID:', this.socket?.id);
+          console.log('  Transport:', this.socket?.io.engine.transport.name);
           console.log('');
           
           this.isConnected = true;
@@ -114,11 +107,8 @@ class WebSocketService {
 
         this.socket.on('disconnect', (reason) => {
           console.log('');
-          console.log('------------------------------');
-          console.log('WebSocket 연결 해제');
-          console.log('------------------------------');
-          console.log('Reason:', reason);
-          console.log('------------------------------');
+          console.log('[WebSocketService] Disconnected');
+          console.log('  Reason:', reason);
           console.log('');
           
           this.isConnected = false;
@@ -126,24 +116,23 @@ class WebSocketService {
           
           // 자동 재연결 안내
           if (reason === 'io server disconnect' || reason === 'io client disconnect') {
-            console.log('의도적인 연결 해제 - 자동 재연결하지 않음');
+            console.log('Intentional disconnect - automatic reconnect disabled');
           } else {
-            console.log('비정상 연결 해제 - Socket.IO가 자동으로 재연결을 시도합니다...');
+            console.log('Unexpected disconnect - Socket.IO will attempt to reconnect');
           }
         });
 
         // 재연결 시도 이벤트
         this.socket.on('reconnect_attempt', (attemptNumber) => {
-          console.log(`재연결 시도 중... (${attemptNumber}번째)`);
+          console.log(`Reconnect attempt ${attemptNumber}`);
           this.reconnectAttempts = attemptNumber;
         });
 
         // 재연결 성공 이벤트
         this.socket.on('reconnect', (attemptNumber) => {
           console.log('');
-          console.log('------------------------------');
-          console.log(`WebSocket 재연결 성공! (${attemptNumber}번 만에)`);
-          console.log('------------------------------');
+          console.log('[WebSocketService] Reconnected');
+          console.log(`  Attempts: ${attemptNumber}`);
           console.log('');
           this.isConnected = true;
           this.reconnectAttempts = 0;
@@ -153,11 +142,8 @@ class WebSocketService {
         // 재연결 실패 이벤트
         this.socket.on('reconnect_failed', () => {
           console.log('');
-          console.log('------------------------------');
-          console.log('WebSocket 재연결 실패 (최대 5번 시도 완료)');
-          console.log('------------------------------');
-          console.log('자막 서비스를 다시 켜려면 토글을 OFF/ON 하세요');
-          console.log('------------------------------');
+          console.log('[WebSocketService] Reconnect failed (5 attempts)');
+          console.log('Turn the subtitle toggle off and on to retry');
           console.log('');
           this.isConnected = false;
           this.onErrorCallback?.('재연결 실패 - 토글을 다시 켜주세요');
@@ -165,33 +151,29 @@ class WebSocketService {
 
         // 재연결 에러 이벤트
         this.socket.on('reconnect_error', (error) => {
-          console.log(`재연결 에러: ${error?.message || error}`);
+          const reconnectErr = error as { message?: string };
+          console.log(`Reconnect error: ${reconnectErr?.message || reconnectErr || 'Unknown error'}`);
         });
 
         this.socket.on('connect_error', (error) => {
+          const connectErr = error as { message?: string };
           console.log('');
-          console.log('------------------------------');
-          console.log('WebSocket 연결 에러 상세 정보');
-          console.log('------------------------------');
-          console.log('Server URL:', serverUrl);
-          console.log('Error Message:', error?.message || 'Unknown error');
-          console.log('Error:', error);
-          console.log('------------------------------');
+          console.log('[WebSocketService] Connection error');
+          console.log('  Server URL:', serverUrl);
+          console.log('  Message:', connectErr?.message || 'Unknown error');
+          console.log('  Raw error:', error);
           console.log('');
-          this.onErrorCallback?.(error?.message || 'Connection failed');
+          this.onErrorCallback?.(connectErr?.message || 'Connection failed');
           resolve(false);
         });
 
         // 자막 데이터 수신
         this.socket.on('subtitle-text', (data: SubtitleData) => {
           console.log('');
-          console.log('------------------------------');
-          console.log('자막 수신!');
-          console.log('------------------------------');
-          console.log('원본:', data.original);
-          console.log('번역:', data.translated);
-          console.log('타임스탬프:', data.timestamp);
-          console.log('------------------------------');
+          console.log('[WebSocketService] Subtitle received');
+          console.log('  Original:', data.original);
+          console.log('  Translated:', data.translated);
+          console.log('  Timestamp:', data.timestamp);
           console.log('');
           
           this.onSubtitleCallback?.(data);
@@ -218,33 +200,27 @@ class WebSocketService {
         setTimeout(() => {
           if (!this.isConnected) {
             console.log('');
-            console.log('------------------------------');
-            console.log('WebSocket 연결 타임아웃 (20초)');
-            console.log('------------------------------');
-            console.log('Server URL:', serverUrl);
-            console.log('Socket 존재:', !!this.socket);
-            console.log('Socket Connected:', this.socket?.connected);
-            console.log('Socket ID:', this.socket?.id);
-            console.log('재연결 시도:', this.reconnectAttempts, '/', this.maxReconnectAttempts);
+            console.log('[WebSocketService] Connection timeout (20s)');
+            console.log('  Server URL:', serverUrl);
+            console.log('  Socket exists:', !!this.socket);
+            console.log('  Socket connected:', this.socket?.connected);
+            console.log('  Socket ID:', this.socket?.id);
+            console.log('  Reconnect attempts:', this.reconnectAttempts, '/', this.maxReconnectAttempts);
             console.log('');
-            console.log('가능한 원인:');
-            console.log('   1. 백엔드 서버가 실행되지 않음');
-            console.log('   2. 잘못된 URL:', serverUrl);
-            console.log('   3. 네트워크 연결 문제');
-            console.log('   4. 방화벽 차단');
-            console.log('------------------------------');
+            console.log('Possible causes:');
+            console.log('  1. Backend server is not running');
+            console.log('  2. Invalid URL:', serverUrl);
+            console.log('  3. Network connectivity issue');
+            console.log('  4. Firewall blocking the connection');
             console.log('');
             resolve(false);
           }
         }, 20000);
       } catch (error) {
         console.log('');
-        console.log('------------------------------');
-        console.log('WebSocket 생성 중 예외 발생');
-        console.log('------------------------------');
-        console.log('Server URL:', serverUrl);
-        console.log('Error:', error);
-        console.log('------------------------------');
+        console.log('[WebSocketService] Exception while creating socket');
+        console.log('  Server URL:', serverUrl);
+        console.log('  Error:', error);
         console.log('');
         console.error('Failed to create socket connection:', error);
         resolve(false);
@@ -346,7 +322,7 @@ class WebSocketService {
    */
   sendAudioChunk(audioData: string | Buffer, encoding: string = 'base64') {
     if (!this.socket || !this.isConnected) {
-      console.error('오디오 전송 실패: WebSocket 연결되지 않음');
+      console.error('Audio send failed: socket is not connected');
       return;
     }
 
@@ -354,7 +330,7 @@ class WebSocketService {
       ? Math.round(audioData.length / 1024) 
       : Math.round(audioData.length / 1024);
     
-    console.log('오디오 청크 전송 중... (', dataSize, 'KB)');
+    console.log('Sending audio chunk (', dataSize, 'KB)');
     
     this.socket.emit('audio-chunk', {
       audio: audioData,

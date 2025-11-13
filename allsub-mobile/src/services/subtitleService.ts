@@ -12,15 +12,14 @@ const SERVER_URL = WS_BASE_URL;
 
 // 환경 설정 디버깅 로그
 console.log('');
-console.log('--- SubtitleService 환경 설정 확인 ---');
-console.log('Platform:', Platform.OS);
-console.log('__DEV__:', __DEV__);
-console.log('WS_BASE_URL:', WS_BASE_URL);
-console.log('SERVER_URL:', SERVER_URL);
+console.log('[SubtitleService] Environment configuration');
+console.log('  Platform:', Platform.OS);
+console.log('  __DEV__:', __DEV__);
+console.log('  WS_BASE_URL:', WS_BASE_URL);
+console.log('  SERVER_URL:', SERVER_URL);
 console.log('');
-console.log('예상 값: http://localhost:3000');
-console.log('   (Android는 adb reverse tcp:3000 tcp:3000 필요)');
-console.log('------------------------------');
+console.log('Expected WS URL: http://localhost:3000');
+console.log('  (Android requires adb reverse tcp:3000 tcp:3000)');
 console.log('');
 
 export interface SubtitleServiceState {
@@ -82,18 +81,16 @@ class SubtitleService {
       // 서비스가 활성 상태이면 재연결 시도
       if (this.isActive) {
         console.log('');
-        console.log('------------------------------');
-        console.log('자막 서비스가 활성 상태입니다. 재연결을 시도합니다...');
-        console.log('------------------------------');
+        console.log('[SubtitleService] Active session detected. Attempting reconnect...');
         console.log('');
         
         // 3초 후 재연결 시도
         setTimeout(async () => {
           if (this.isActive && !this.isConnected) {
-            console.log('WebSocket 재연결 시도 중...');
+            console.log('Attempting WebSocket reconnect...');
             const reconnected = await WebSocketService.connect(WS_BASE_URL);
             if (reconnected) {
-              console.log('재연결 성공! 자막 서비스 재개합니다.');
+              console.log('Reconnect succeeded. Resuming subtitle service.');
               // 자막 서비스 재시작 요청 전송 (저장된 설정 사용)
               if (this.onSubtitleUpdate && this.onStateUpdate) {
                 WebSocketService.startSubtitle(
@@ -103,10 +100,10 @@ class SubtitleService {
                   this.lastTranslationDirection,
                   this.lastMicrophoneMode
                 );
-                console.log('자막 서비스 재시작 요청 전송 완료');
+                console.log('Start-subtitle request sent after reconnect');
               }
             } else {
-              console.log('재연결 실패. 토글을 다시 켜주세요.');
+              console.log('Reconnect failed. Please toggle captions off and on.');
             }
           }
         }, 3000);
@@ -153,14 +150,13 @@ class SubtitleService {
   ): Promise<boolean> {
     try {
       console.log('');
-      console.log('--- SubtitleService.start() 호출 ---');
-      console.log('SERVER_URL:', SERVER_URL);
-      console.log('User ID:', userId);
-      console.log('Source Language:', sourceLanguage);
-      console.log('Target Language:', targetLanguage);
-      console.log('Platform:', Platform.OS);
-      console.log('Dev Mode:', __DEV__);
-      console.log('------------------------------');
+      console.log('[SubtitleService] start() invoked');
+      console.log('  SERVER_URL:', SERVER_URL);
+      console.log('  User ID:', userId);
+      console.log('  Source Language:', sourceLanguage);
+      console.log('  Target Language:', targetLanguage);
+      console.log('  Platform:', Platform.OS);
+      console.log('  Dev Mode:', __DEV__);
       console.log('');
       
       // 환경 정보 로깅
@@ -177,35 +173,34 @@ class SubtitleService {
 
       // 1. WebSocket 서버에 연결
       console.log('');
-      console.log('STEP 1: WebSocket 연결 시도 중...');
-      console.log('   URL:', SERVER_URL);
-      console.log('   URL 타입:', typeof SERVER_URL);
-      console.log('   URL 길이:', SERVER_URL?.length);
-      console.log('   URL 값:', JSON.stringify(SERVER_URL));
+      console.log('[SubtitleService] STEP 1: Connecting WebSocket');
+      console.log('  URL:', SERVER_URL);
+      console.log('  URL type:', typeof SERVER_URL);
+      console.log('  URL length:', SERVER_URL?.length);
+      console.log('  URL value:', JSON.stringify(SERVER_URL));
       console.log('');
       
       try {
         const connected = await WebSocketService.connect(SERVER_URL);
         console.log('');
-        console.log('WebSocket 연결 결과:', connected ? '성공' : '실패');
+        console.log('[SubtitleService] WebSocket connection result:', connected ? 'success' : 'failure');
         console.log('');
         if (!connected) {
-          console.error('STEP 1 실패: WebSocket 연결 불가');
-          console.error('   시도한 URL:', SERVER_URL);
-          console.error('   현재 시간:', new Date().toISOString());
+          console.error('STEP 1 failed: unable to connect WebSocket');
+          console.error('  URL:', SERVER_URL);
+          console.error('  Time:', new Date().toISOString());
           Diagnostics.logConnectionFailure(SERVER_URL);
           Diagnostics.logServiceStartFailure('WebSocket 연결 실패');
           return false;
         }
       } catch (error) {
-        console.error('STEP 1 예외 발생:', error);
-        if (error instanceof Error) {
-          console.error('   에러 메시지:', error.message);
-          console.error('   에러 스택:', error.stack);
-        }
+        const stepOneError = error as { message?: string; stack?: string };
+        console.error('STEP 1 exception:', error);
+        console.error('  Message:', stepOneError?.message ?? String(error));
+        console.error('  Stack:', stepOneError?.stack ?? 'N/A');
         return false;
       }
-      console.log('STEP 1 완료: WebSocket 연결 성공');
+      console.log('STEP 1 complete: WebSocket connection established');
       console.log('');
 
       this.isConnected = true;
@@ -220,12 +215,12 @@ class SubtitleService {
       if (Platform.OS === 'android') {
         try {
           // Android: 시스템 오디오 캡처 시도
-          console.log('Android 시스템 오디오 지원 확인 중...');
+          console.log('Checking Android system audio support...');
           const isSystemAudioSupported = await SystemAudioService.isSupported();
-          console.log('시스템 오디오 지원:', isSystemAudioSupported);
+          console.log('System audio support:', isSystemAudioSupported);
           
           if (isSystemAudioSupported) {
-            console.log('시스템 오디오 캡처 사용 (Android 10+)');
+            console.log('Using system audio capture (Android 10+)');
             // 시스템 오디오 직접 캡처 (백엔드로 직접 전송)
             audioStarted = await SystemAudioService.start(
               SERVER_URL.replace('http://', '').replace('https://', ''),
@@ -233,40 +228,40 @@ class SubtitleService {
             );
             
             if (audioStarted) {
-              console.log('시스템 오디오 캡처 시작됨');
+              console.log('System audio capture started');
             } else {
-              console.log('시스템 오디오 캡처 실패, 마이크로 전환');
+              console.log('System audio capture failed, falling back to microphone');
             }
           }
         } catch (error) {
-          console.error('시스템 오디오 체크 중 에러:', error);
-          console.log('마이크 모드로 전환합니다.');
+          console.error('System audio check error:', error);
+          console.log('Switching to microphone mode.');
         }
       }
 
       // 시스템 오디오 실패 또는 iOS의 경우 마이크 사용
       if (!audioStarted) {
         console.log('');
-        console.log('STEP 3: 마이크 오디오 캡처 시작...');
-        console.log('   Platform:', Platform.OS);
+        console.log('[SubtitleService] STEP 3: Starting microphone capture');
+        console.log('  Platform:', Platform.OS);
         
         console.log('');
-        console.log('STEP 3-1: 마이크 권한 요청 중...');
+        console.log('[SubtitleService] STEP 3-1: Requesting microphone permission');
         const hasAudioPermission = await AudioService.requestPermissions();
-        console.log('마이크 권한 결과:', hasAudioPermission ? '허용됨' : '거부됨');
+        console.log('  Microphone permission:', hasAudioPermission ? 'granted' : 'denied');
         console.log('');
         
         if (!hasAudioPermission) {
-          console.error('STEP 3-1 실패: 마이크 권한 거부됨');
+          console.error('STEP 3-1 failed: microphone permission denied');
           Diagnostics.logServiceStartFailure('마이크 권한 거부됨');
           WebSocketService.stopSubtitle();
           WebSocketService.disconnect();
           return false;
         }
-        console.log('STEP 3-1 완료: 마이크 권한 허용됨');
+        console.log('STEP 3-1 complete: microphone permission granted');
         console.log('');
 
-        console.log('STEP 3-2: 오디오 녹음 시작 시도...');
+        console.log('[SubtitleService] STEP 3-2: Starting microphone recording');
         audioStarted = await AudioService.startStreamingRecording(
           (audioData: string) => {
             // 오디오 청크를 WebSocket으로 전송
@@ -274,23 +269,22 @@ class SubtitleService {
           },
           2000 // 2초 간격
         );
-        console.log('오디오 녹음 시작 결과:', audioStarted ? '성공' : '실패');
+        console.log('  Microphone recording result:', audioStarted ? 'success' : 'failure');
         console.log('');
 
         if (!audioStarted) {
-          console.error('STEP 3-2 실패: 오디오 녹음 시작 불가');
+          console.error('STEP 3-2 failed: microphone recording could not start');
           console.error('');
-          console.error('가능한 원인:');
-          console.error('   1. expo-av 초기화 실패');
-          console.error('   2. 에뮬레이터 마이크 설정 문제');
-          console.error('   3. 이미 다른 앱이 마이크 사용 중');
+          console.error('Possible causes:');
+          console.error('  1. expo-av initialization failure');
+          console.error('  2. Emulator microphone configuration issue');
+          console.error('  3. Another application is using the microphone');
           console.error('');
           
           // 테스트 모드: 더미 오디오로 계속 진행
           console.log('');
-          console.log('테스트 모드 활성화');
-          console.log('더미 오디오 데이터를 2초마다 전송합니다.');
-          console.log('WebSocket 연결과 백엔드 응답을 테스트할 수 있습니다.');
+          console.log('Test mode enabled');
+          console.log('Sending dummy audio every 2 seconds to verify WebSocket flow');
           console.log('');
           
           // 더미 오디오 데이터를 주기적으로 전송
@@ -298,18 +292,18 @@ class SubtitleService {
             // Base64로 인코딩된 짧은 무음 오디오
             const dummyAudio = 'UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
             WebSocketService.sendAudioChunk(dummyAudio, 'base64');
-            console.log('더미 오디오 청크 전송 (테스트 모드)');
+            console.log('Dummy audio chunk sent (test mode)');
           }, 2000);
           
           // cleanup 시 interval 정리
           this.cleanupCallbacks.push(() => clearInterval(dummyInterval));
           
           audioStarted = true;
-          console.log('테스트 모드로 계속 진행합니다.');
+          console.log('Continuing in test mode');
           console.log('');
         }
         
-        console.log('STEP 3-2 완료: 오디오 녹음 시작 성공');
+        console.log('STEP 3-2 complete: microphone recording started');
         console.log('');
       }
 
@@ -320,37 +314,37 @@ class SubtitleService {
       // Android: 플로팅 버튼 시작 (다른 앱 위에 표시)
       if (Platform.OS === 'android') {
         try {
-          console.log('Android 플로팅 버튼 시작 시도...');
+          console.log('Starting Android floating button...');
           const floatingStarted = await FloatingButtonService.start();
           if (floatingStarted) {
-            console.log('플로팅 버튼 시작됨');
+            console.log('Floating button started');
           } else {
-            console.log('플로팅 버튼 시작 실패 (권한 필요)');
+            console.log('Floating button failed to start (permission required)');
           }
         } catch (error) {
-          console.error('플로팅 버튼 에러 (무시하고 계속):', error);
+          console.error('Floating button error (continuing):', error);
         }
       }
 
       // iOS: Live Activities 시작 (Dynamic Island & 잠금 화면)
       if (Platform.OS === 'ios') {
         try {
-          console.log('iOS Live Activities 시작 시도...');
+          console.log('Starting iOS Live Activities...');
           const liveActivityStarted = await LiveActivityManager.start();
           if (!liveActivityStarted) {
-            console.log('Live Activity 시작 실패 (iOS 16.1+ 필요)');
+            console.log('Live Activity failed to start (requires iOS 16.1+)');
           } else {
-            console.log('Live Activity 시작됨');
+            console.log('Live Activity started');
           }
         } catch (error) {
-          console.error('Live Activity 에러 (무시하고 계속):', error);
+          console.error('Live Activity error (continuing):', error);
         }
       }
 
       // 성공 정보 표시
       Diagnostics.logSuccessInfo();
       
-      console.log('자막 서비스 시작 완료!');
+      console.log('Subtitle service started successfully');
       return true;
     } catch (error) {
       console.error('Failed to start subtitle service:', error);
@@ -382,7 +376,7 @@ class SubtitleService {
       // iOS: Live Activities 중지
       if (Platform.OS === 'ios' && LiveActivityManager.isActive()) {
         await LiveActivityManager.stop();
-        console.log('Live Activity 중지됨');
+        console.log('Live Activity stopped');
       }
 
       // WebSocket 자막 서비스 중지

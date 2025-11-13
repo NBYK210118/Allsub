@@ -70,7 +70,7 @@ export class WhisperService {
       if (text) {
         this.logger.log(`음성 인식 완료: ${text.substring(0, 50)}...`);
       } else {
-        this.logger.warn('음성 인식 결과 없음 (소리가 너무 작거나 없음)');
+          this.logger.warn('음성 인식 결과 없음 (소리가 너무 작거나 없음)');
       }
 
       return text;
@@ -102,7 +102,7 @@ export class WhisperService {
     const index = audioBuffer.length % sampleTexts.length;
     const text = sampleTexts[index];
     
-    this.logger.log(`시뮬레이션 모드: ${text}`);
+    this.logger.log(`🎭 시뮬레이션 모드: ${text}`);
     
     return text;
   }

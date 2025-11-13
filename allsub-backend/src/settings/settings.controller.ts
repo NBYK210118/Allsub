@@ -10,39 +10,40 @@ export class SettingsController {
   @Get(':userId')
   async getUserSettings(@Param('userId') userId: string) {
     console.log('');
-    console.log('--- 요청 수신 (GET /settings/:userId) ---');
-    console.log('User ID:', userId);
-    console.log('요청 시간:', new Date().toLocaleString('ko-KR'));
-    console.log('------------------------------');
+    console.log('[SettingsController] GET /settings/:userId');
+    console.log(`  User ID: ${userId}`);
+    console.log(`  Timestamp: ${new Date().toLocaleString('ko-KR')}`);
+    console.log('----------------------------------------');
     console.log('');
 
     this.logger.log(`REQUEST RECEIVED - GET /settings/${userId}`);
-    
+
     return this.settingsService.getUserSettings(userId);
   }
 
   @Post(':userId/toggle')
   async toggleCaption(@Param('userId') userId: string) {
     console.log('');
-    console.log('--- 요청 수신 (POST /settings/:userId/toggle) ---');
-    console.log('User ID:', userId);
-    console.log('요청 시간:', new Date().toLocaleString('ko-KR'));
-    console.log('------------------------------');
+    console.log('[SettingsController] POST /settings/:userId/toggle');
+    console.log(`  User ID: ${userId}`);
+    console.log(`  Timestamp: ${new Date().toLocaleString('ko-KR')}`);
+    console.log('----------------------------------------');
     console.log('');
 
     this.logger.log(`REQUEST RECEIVED - POST /settings/${userId}/toggle`);
-    
+
     const beforeSettings = await this.settingsService.getUserSettings(userId);
     const beforeState = beforeSettings?.isCaptionEnabled ? 'ON' : 'OFF';
-    console.log('현재 상태:', beforeState);
+    console.log('Current state:', beforeState);
     console.log('');
     
     const result = await this.settingsService.toggleCaption(userId);
     const afterState = result.isCaptionEnabled ? 'ON' : 'OFF';
     
-    console.log('토글 완료');
-    console.log('이전 상태:', beforeState, '-> 새로운 상태:', afterState);
-    console.log('------------------------------');
+    console.log('Toggle completed');
+    console.log('  Previous state:', beforeState, '-> New state:', afterState);
+    console.log('----------------------------------------');
+    console.log('');
     
     this.logger.log(`Toggle caption for user ${userId}: ${beforeState} -> ${afterState}`);
     
@@ -55,11 +56,11 @@ export class SettingsController {
     @Body() body: { isCaptionEnabled: boolean; captionText?: string },
   ) {
     console.log('');
-    console.log('--- 설정 업데이트 요청 수신 (POST /settings/:userId/update) ---');
-    console.log('User ID:', userId);
-    console.log('isCaptionEnabled:', body.isCaptionEnabled ? 'ON' : 'OFF');
-    console.log('요청 시간:', new Date().toLocaleString('ko-KR'));
-    console.log('------------------------------');
+    console.log('[SettingsController] POST /settings/:userId/update');
+    console.log(`  User ID: ${userId}`);
+    console.log(`  isCaptionEnabled: ${body.isCaptionEnabled ? 'ON' : 'OFF'}`);
+    console.log(`  Timestamp: ${new Date().toLocaleString('ko-KR')}`);
+    console.log('----------------------------------------');
     console.log('');
     
     const result = await this.settingsService.updateCaptionSettings(
